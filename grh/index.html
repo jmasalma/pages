@@ -28,18 +28,6 @@ input[type=checkbox] {
  border: 1px solid #bbb;
 }
 
-button[type=submit] {
- -webkit-appearance: none; -moz-appearance: none;
- display: block;
- margin: 1.5em 0;
- font-size: 1em; line-height: 2.5em;
- color: #333;
- font-weight: bold;
- height: 2.5em; width: 100%;
- background: #fdfdfd; background: -moz-linear-gradient(top, #fdfdfd 0%, #bebebe 100%); background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fdfdfd), color-stop(100%,#bebebe)); background: -webkit-linear-gradient(top, #fdfdfd 0%,#bebebe 100%); background: -o-linear-gradient(top, #fdfdfd 0%,#bebebe 100%); background: -ms-linear-gradient(top, #fdfdfd 0%,#bebebe 100%); background: linear-gradient(to bottom, #fdfdfd 0%,#bebebe 100%);
- border: 1px solid #bbb;
- -webkit-border-radius: 10px; -moz-border-radius: 10px; border-radius: 10px;
-}
 
 input[type=range] {
  width: 100%;
@@ -83,7 +71,7 @@ div {
 function check_vals() {
   document.getElementById("result").innerHTML = ""
   
-  
+/*
   ESARange = document.getElementById("ESARange").value;
   if (ESARange == 1) {
     changedESA = "reduced"
@@ -95,8 +83,9 @@ function check_vals() {
     changedESA = "increased"
     document.getElementById("changedESARange").innerHTML = "Increased"
   }
+*/
 
-/*
+
   if (document.getElementById("increase").checked) {
     changedESA = "increased"
   } else if (document.getElementById("reduced").checked) {
@@ -104,7 +93,7 @@ function check_vals() {
   } else {
     changedESA = "nochange"
   }
-*/
+
 
   
   ESAonHold = document.getElementById("ESAonHold").checked;
@@ -198,16 +187,35 @@ function check_vals() {
 <label for="lmHgb">Hgb measurement from last month blood work:</label>
 <input type="number" id="lmHgb" name="lmHgb" required minlength="0" maxlength="3" size="3" pattern="[0-9]*" inputmode="numeric" onChange="check_vals();" />
 <br/>
+
+
+<div style="width: 100%; overflow: hidden;">
+<div style="float: left;">
 <input type="checkbox" id="ESA" name="ESA" onChange="check_vals();" checked />
+</div>
+<div style="margin-left: 5%; vertical-align: middle;">
 <label for="ESA">Is patient receiving Aranesp (ESA):</label>
+</div>
+</div>
+
+
 <br/>
+
+
+<div style="width: 100%; overflow: hidden;">
+<div style="float: left;">
 <input type="checkbox" id="ESAonHold" name="ESAonHold" onChange="check_vals();" />
+</div>
+<div style="margin-left: 5%;">
 <label for="ESAonHold">Is ESA on Hold or discontinued<br />because Hb above target:</label>
-<br/>
+</div>
+</div>
 
 <br/>
 
-<!--
+<br/>
+
+
 <label for="changedESA">ESA dosage change in the past 5 weeks:</label>
 <br/>
 <label for="changedESA">Increased</label>
@@ -219,11 +227,12 @@ function check_vals() {
 <label for="changedESA">Reduced</label>
 <input type="radio" id="reduced"  name="changedESA" onChange="check_vals();" value="Reduced" />
 <br/>
--->
 
+<!--
 <label for="changedESA">Was ESA dosage changed in the past 5 weeks:</label>
 <div id="changedESARange">No Change</div><input type="range" min="1" max="3" value="2" id="ESARange" onChange="check_vals();">
 <br/>
+-->
 
 
 <button onClick="check_vals();">Submit</button>
