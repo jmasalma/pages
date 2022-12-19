@@ -33,13 +33,14 @@ function check_vals() {
     return
   }
   ESA = document.getElementById("ESA").checked;
-  document.getElementById("footer").innerHTML = "debug: " + cHgb + " : " + lmHgb + " : " + ESA + " : " + ESAonHold + " : " + changedESA;
+  //document.getElementById("footer").innerHTML = "debug: " + cHgb + " : " + lmHgb + " : " + ESA + " : " + ESAonHold + " : " + changedESA;
 
 
 
   if ((Math.abs(lmHgb - cHgb) >= 15) || (cHgb < 85) || ((cHgb > 139) && (ESA || ESAonHold))) {
     document.getElementById("result").innerHTML = "Any change in Hb greater than equal to 15 g/L, OR if Hb is less than 85 g/L OR if Hb is greater than 139 g/L and on ESA (or ESA on hold)<br>Notify nephrologist"
   }
+
 
   else if (cHgb >= 85 && cHgb <= 94) {
     if (ESA) {
@@ -53,15 +54,17 @@ function check_vals() {
     }
   }
 
+
   else if (cHgb >= 95 && cHgb <= 115) {
     if (!ESA && !ESAonHold) {
       document.getElementById("result").innerHTML = "<b>No ESA Required</b>. Continue to monitor Hb at regular blood work cycle"
     } else if (ESA && !ESAonHold) {
-      document.getElementById("result").innerHTML = "<b>Maintain ESA Dose</b>. Continue to monitor Hb at regular blood work cycle"
+      document.getElementById("result").innerHTML = "<b>Maintain ESA (Aranesp/Darbepoetin) Dose</b>. Continue to monitor Hb at regular blood work cycle"
     } else if (ESAonHold) {
-      document.getElementById("result").innerHTML = "<b>Restart ESA at a reduced dose</b> based on the dose before hold. Refer to ESA dosage adjustment table. Appendix E. Continue monitoring at regular blood work cycle"
+      document.getElementById("result").innerHTML = "<b>Restart ESA (Aranesp/Darbepoetin) at a reduced dose</b> based on the dose before hold. Refer to ESA dosage adjustment table. Appendix E. Continue monitoring at regular blood work cycle"
     }
   }
+
 
   else if (cHgb > 115) {
     if (!ESA && !ESAonHold) {
@@ -92,8 +95,6 @@ function check_vals() {
       }
     }
   }
-
-
 
 
 }
