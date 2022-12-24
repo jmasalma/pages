@@ -29,7 +29,7 @@ function check_vals() {
   ESAonHold = document.getElementById("ESAonHold").checked;
   cHgb = document.getElementById("cHgb").value;
   lmHgb = document.getElementById("lmHgb").value;
-  if (cHgb == "" || lmHgb == "") {
+  if (cHgb === "" || lmHgb === "") {
     return
   }
   ESA = document.getElementById("ESA").checked;
