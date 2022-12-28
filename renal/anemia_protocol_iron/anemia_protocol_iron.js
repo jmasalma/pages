@@ -6,37 +6,33 @@ function isEmpty(value) {
 
 function check_vals(val) {
 
-
+  let checks_count = 3;
 
   document.getElementById("result").innerHTML = "";
 
-
   if (val.id === "none") {
-    document.getElementById("ferritin").checked = false;
-    document.getElementById("antibiotics").checked = false;
-    document.getElementById("sepsis").checked = false;
+    for (let i = 1; i <= checks_count; i++) {
+      document.getElementById("x"+i).checked = false;
+    }
   } else {
     document.getElementById("none").checked = false;
   }
 
-
-  ferritin = document.getElementById("ferritin").checked;
-  antibiotics = document.getElementById("antibiotics").checked;
-  sepsis = document.getElementById("sepsis").checked;
+  var xs = [];
+  for (let i = 1; i <= checks_count; i++) {
+    xs[i] = document.getElementById("x"+i).checked;
+  }
   none = document.getElementById("none").checked;
 
+  let checker = arr => arr.some(Boolean);
 
   if (none) {
-    document.getElementById("result").innerHTML = "<a href='protocol.html'>Go to protocol</a>"
-  } else if (ferritin || antibiotics || sepsis) {
-    document.getElementById("result").innerHTML = "notify the nephrologist to assess ongoing iron"
-  } else if (!(none || ferritin || antibiotics || sepsis)) {
+    document.getElementById("result").innerHTML = "<div class='divTable'><div class='divRow'><a href='protocol.html'><div class='divCell nav-item'>Go to protocol</div></a></div></div>"
+  } else if (checker(xs)) {
+    document.getElementById("result").innerHTML = "notify the nephrologist to assess ongoing ESA"
+  } else if (!(none || checker(xs))) {
     document.getElementById("result").innerHTML = ""
   }
-
-
-
-
 
 }
 
