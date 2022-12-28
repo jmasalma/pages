@@ -1,2 +1,71 @@
+<!doctype html>
+<html>
 
+
+<head>
+<title>Renal Protcols - ESA Assessment</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link rel="stylesheet" type="text/css" href="../renal.css">
+
+<script type="text/javascript" src="anemia_protocol_iron.js"></script>
+</head>
+
+<body>
+
+<h3>Hemodialysis Anemia Management Protocol - IV Iron Assessment</h3>
+
+
+<div id="container">
+  
+  <div>
+  
+    <form id="form_esa" action="/">
+    
+      <div class="divTable">
+
+        <div class="divRow">
+          <div class="divCellLeft"><input type="checkbox" id="ferritin" name="ferritin" onChange="check_vals(this);" /></div>
+          <div class="divCellRight"><label for="ferritin">Ferritin > 1000 mcg/L</label></div>
+        </div>
+
+        <div class="divRow">
+          <div class="divCellLeft"><input type="checkbox" id="antibiotics" name="antibiotics" onChange="check_vals(this);" /></div>
+          <div class="divCellRight"><label for="antibiotics">On IV antibiotics</label></div>
+        </div>
+
+        <div class="divRow">
+          <div class="divCellLeft"><input type="checkbox" id="sepsis" name="sepsis" onChange="check_vals(this);" /></div>
+          <div class="divCellRight"><label for="sepsis">Signs and symptoms of sepsis</label></div>
+        </div>
+
+        <div class="divRow">
+          <div class="divCellLeft"><input type="checkbox" id="none" name="none" onChange="check_vals(this);" /></div>
+          <div class="divCellRight"><label for="none">None of the above</label></div>
+        </div>
+
+      </div>
+
+
+
+
+      <div>
+        <button type="button">Submit</button>
+        <button type="button" onClick="window.location.reload();">Clear</button>
+      </div>
+  
+    </form>
+
+    <div id="result"></div>
+
+  </div>
+
+
+  <div id="footer"></div>
+
+
+</div>
+</body>
+</html>
 

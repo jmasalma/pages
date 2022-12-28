@@ -1,0 +1,100 @@
+<!doctype html>
+<html>
+
+
+<head>
+<title>Renal Protcols - ESA Assessment</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link rel="stylesheet" type="text/css" href="../renal.css">
+
+<script type="text/javascript" src="anemia_protocol_iron.js"></script>
+</head>
+
+<body>
+
+<h3>Hemodialysis Anemia Management Protocol - IV Iron Assessment - protocol</h3>
+
+
+<div id="container">
+  
+  <div>
+  
+    <form id="form_esa" action="/">
+    
+      <div class="divTable">
+
+        <div class="divRow">
+          <div class="divCellLeft"><input type="number" id="tsat" name="tsat" required minlength="0" maxlength="3" size="3" pattern="[0-9]*" inputmode="numeric" onChange="check_vals_iron();" /></div>
+          <div class="divCellRight"><label for="tsat">% TSAT</label></div>
+        </div>
+
+        <div id="hgb" style="display: none;">
+          <div class="divRow">
+            <div class="divCellLeft"><input type="number" id="hgb_val" name="hgb_val" required minlength="0" maxlength="3" size="3" pattern="[0-9]*" inputmode="numeric" onChange="check_vals_iron();" /></div>
+            <div class="divCellRight"><label for="hgb_val">Current Hgb measurement</label></div>
+          </div>
+        </div>
+
+
+        <div id="iron_store" style="display: none;">
+          <div class="divRow">
+            <label for="maintain_iron_store">Maintain Iron Stores:</label>
+          </div>
+  
+          <div class="divRow">
+            <div class="divCellLeft"><input type="radio" id="receving" name="maintain_iron_store" onChange="check_vals_iron();" value="receving" /></div>
+            <div class="divCellRight"><label for="receving">Receiving maintenance iron</label></div>
+          </div>
+  
+          <div class="divRow">
+            <div class="divCellLeft"><input type="radio" id="loading" name="maintain_iron_store" onChange="check_vals_iron();" value="loading" /></div>
+            <div class="divCellRight"><label for="loading">Iron loading dose just completed</label></div>
+          </div>
+  
+          <div class="divRow">
+            <div class="divCellLeft"><input type="radio" id="hold"  name="maintain_iron_store" onChange="check_vals_iron();" value="hold" /></div>
+            <div class="divCellRight"><label for="hold">Iron is currently on hold</label></div>
+          </div>
+  
+          <div class="divRow">
+            <div class="divCellLeft"><input type="radio" id="no_iron"  name="maintain_iron_store" onChange="check_vals_iron();" value="no_iron" /></div>
+            <div class="divCellRight"><label for="no_iron">Not on IV iron</label></div>
+          </div>
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+      </div>
+
+
+
+
+      <div>
+        <button type="button">Next...</button>
+        <button type="button" onClick="window.location.reload();">Clear</button>
+      </div>
+  
+    </form>
+
+    <div id="result"></div>
+
+  </div>
+
+
+  <div id="footer"></div>
+
+
+</div>
+</body>
+</html>
+
