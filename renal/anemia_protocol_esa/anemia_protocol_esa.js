@@ -4,6 +4,39 @@ function isEmpty(value) {
 
 
 
+
+function check_vals_x(val) {
+
+  let checks_count = 8;
+
+  document.getElementById("result").innerHTML = "";
+
+  if (val.id === "none") {
+    for (let i = 1; i <= checks_count; i++) {
+      document.getElementById("x"+i).checked = false;
+    }
+  } else {
+    document.getElementById("none").checked = false;
+  }
+
+  var xs = [];
+  for (let i = 1; i <= checks_count; i++) {
+    xs[i] = document.getElementById("x"+i).checked;
+  }
+  none = document.getElementById("none").checked;
+
+  let checker = arr => arr.some(Boolean);
+
+  if (none) {
+    document.getElementById("result").innerHTML = "<div class='divTable'><div class='divRow'><a href='protocol.html'><div class='divCell nav-item'>Go to protocol</div></a></div></div>"
+  } else if (checker(xs)) {
+    document.getElementById("result").innerHTML = "notify the nephrologist to assess ongoing ESA"
+  } else if (!(none || checker(xs))) {
+    document.getElementById("result").innerHTML = ""
+  }
+
+}
+
 function calculateDose(value, increase) {
   let doseMatrix = [
      [10, 10, 0]

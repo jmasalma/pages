@@ -23,60 +23,55 @@
   
     <form id="form_esa" action="/">
     
-    
-    
       <div class="divTable">
+
         <div class="divRow">
-          <div class="divCellLeft"><input type="number" id="cHgb" name="cHgb" required minlength="0" maxlength="3" size="3" pattern="[0-9]*" inputmode="numeric" onChange="check_vals();" /></div>
-          <div class="divCellRight"><label for="cHgb">Current Hgb measurement</label></div>
+          <div class="divCellLeft"><input type="checkbox" id="x1" name="x1" onChange="check_vals_x(this);" /></div>
+          <div class="divCellRight"><label for="x1">patients with hemochromatosis</label></div>
         </div>
 
         <div class="divRow">
-          <div class="divCellLeft"><input type="number" id="lmHgb" name="lmHgb" required minlength="0" maxlength="3" size="3" pattern="[0-9]*" inputmode="numeric" onChange="check_vals();" /></div>
-          <div class="divCellRight"><label for="lmHgb">Hgb measurement from last month blood work</label></div>
+          <div class="divCellLeft"><input type="checkbox" id="x2" name="x2" onChange="check_vals_x(this);" /></div>
+          <div class="divCellRight"><label for="x2">thalassemia</label></div>
         </div>
 
         <div class="divRow">
-          <div class="divCellLeft"><input type="checkbox" id="ESA" name="ESA" onChange="check_vals();" checked /></div>
-          <div class="divCellRight"><label for="ESA">Is patient receiving ESA (Aranesp/Darbepoetin)</label></div>
-        </div>
-<!--
-        <div class="divRow" id="current_dose_div">
-          <div class="divCellLeft"><input type="number" id="current_dose" name="current_dose" minlength="0" maxlength="3" size="3" pattern="[0-9]*" inputmode="numeric" onChange="check_vals();" /></div>
-          <div class="divCellRight"><label for="current_dose">Current dose</label></div>
-        </div>
--->
-        <div class="divRow">
-          <div class="divCellLeft"><input type="checkbox" id="ESAonHold" name="ESAonHold" onChange="check_vals();" /></div>
-          <div class="divCellRight"><label for="ESAonHold">Is ESA (Aranesp/Darbepoetin) on Hold or discontinued because Hb above target</label></div>
-        </div>
-<!--
-        <div class="divRow" id="previous_dose_div" style="display: none;">
-          <div class="divCellLeft"><input type="number" id="previous_dose" name="previous_dose" minlength="0" maxlength="3" size="3" pattern="[0-9]*" inputmode="numeric" onChange="check_vals();" /></div>
-          <div class="divCellRight"><label for="previous_dose">Previous dose</label></div>
-        </div>
--->
-        <div class="divRow">
-          <label for="changedESA">ESA (Aranesp/Darbepoetin) dosage change in the past 5 weeks:</label>
+          <div class="divCellLeft"><input type="checkbox" id="x3" name="x3" onChange="check_vals_x(this);" /></div>
+          <div class="divCellRight"><label for="x3">PRCA</label></div>
         </div>
 
         <div class="divRow">
-          <div class="divCellLeft"><input type="radio" id="increase" name="changedESA" onChange="check_vals();" value="Increased" /></div>
-          <div class="divCellRight"><label for="increase">Increased</label></div>
+          <div class="divCellLeft"><input type="checkbox" id="x4" name="x4" onChange="check_vals_x(this);" /></div>
+          <div class="divCellRight"><label for="x4">allergy to IV iron</label></div>
         </div>
 
         <div class="divRow">
-          <div class="divCellLeft"><input type="radio" id="noChange" name="changedESA" onChange="check_vals();" value="No change" checked /></div>
-          <div class="divCellRight"><label for="noChange">No change</label></div>
+          <div class="divCellLeft"><input type="checkbox" id="x5" name="x5" onChange="check_vals_x(this);" /></div>
+          <div class="divCellRight"><label for="x5">allergy to erythropoiesis stimulating agent</label></div>
         </div>
 
         <div class="divRow">
-          <div class="divCellLeft"><input type="radio" id="reduced"  name="changedESA" onChange="check_vals();" value="Reduced" /></div>
-          <div class="divCellRight"><label for="reduced">Reduced</label></div>
+          <div class="divCellLeft"><input type="checkbox" id="x6" name="x6" onChange="check_vals_x(this);" /></div>
+          <div class="divCellRight"><label for="x6">hx of stroke</label></div>
+        </div>
+
+        <div class="divRow">
+          <div class="divCellLeft"><input type="checkbox" id="x7" name="x7" onChange="check_vals_x(this);" /></div>
+          <div class="divCellRight"><label for="x7">active malignancy</label></div>
+        </div>
+
+        <div class="divRow">
+          <div class="divCellLeft"><input type="checkbox" id="x8" name="x8" onChange="check_vals_x(this);" /></div>
+          <div class="divCellRight"><label for="x8">hx of malignancy, etc.</label></div>
+        </div>
+
+
+        <div class="divRow">
+          <div class="divCellLeft"><input type="checkbox" id="none" name="none" onChange="check_vals_x(this);" /></div>
+          <div class="divCellRight"><label for="none">None of the above</label></div>
         </div>
 
       </div>
-
 
 
 
@@ -84,11 +79,11 @@
         <button type="button">Submit</button>
         <button type="button" onClick="window.location.reload();">Clear</button>
       </div>
-      
+  
     </form>
-    
+
     <div id="result"></div>
-    
+
   </div>
 
 
@@ -98,3 +93,4 @@
 </div>
 </body>
 </html>
+

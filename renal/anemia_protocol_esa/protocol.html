@@ -1,0 +1,100 @@
+<!doctype html>
+<html>
+
+
+<head>
+<title>Renal Protcols - ESA Assessment</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link rel="stylesheet" type="text/css" href="../renal.css">
+
+<script type="text/javascript" src="anemia_protocol_esa.js"></script>
+</head>
+
+<body>
+
+<h3>Hemodialysis Anemia Management Protocol - ESA (Aranesp/Darbepoetin) Assessment</h3>
+
+
+<div id="container">
+  
+  <div>
+  
+    <form id="form_esa" action="/">
+    
+    
+    
+      <div class="divTable">
+        <div class="divRow">
+          <div class="divCellLeft"><input type="number" id="cHgb" name="cHgb" required minlength="0" maxlength="3" size="3" pattern="[0-9]*" inputmode="numeric" onChange="check_vals();" /></div>
+          <div class="divCellRight"><label for="cHgb">Current Hgb measurement</label></div>
+        </div>
+
+        <div class="divRow">
+          <div class="divCellLeft"><input type="number" id="lmHgb" name="lmHgb" required minlength="0" maxlength="3" size="3" pattern="[0-9]*" inputmode="numeric" onChange="check_vals();" /></div>
+          <div class="divCellRight"><label for="lmHgb">Hgb measurement from last month blood work</label></div>
+        </div>
+
+        <div class="divRow">
+          <div class="divCellLeft"><input type="checkbox" id="ESA" name="ESA" onChange="check_vals();" checked /></div>
+          <div class="divCellRight"><label for="ESA">Is patient receiving ESA (Aranesp/Darbepoetin)</label></div>
+        </div>
+<!--
+        <div class="divRow" id="current_dose_div">
+          <div class="divCellLeft"><input type="number" id="current_dose" name="current_dose" minlength="0" maxlength="3" size="3" pattern="[0-9]*" inputmode="numeric" onChange="check_vals();" /></div>
+          <div class="divCellRight"><label for="current_dose">Current dose</label></div>
+        </div>
+-->
+        <div class="divRow">
+          <div class="divCellLeft"><input type="checkbox" id="ESAonHold" name="ESAonHold" onChange="check_vals();" /></div>
+          <div class="divCellRight"><label for="ESAonHold">Is ESA (Aranesp/Darbepoetin) on Hold or discontinued because Hb above target</label></div>
+        </div>
+<!--
+        <div class="divRow" id="previous_dose_div" style="display: none;">
+          <div class="divCellLeft"><input type="number" id="previous_dose" name="previous_dose" minlength="0" maxlength="3" size="3" pattern="[0-9]*" inputmode="numeric" onChange="check_vals();" /></div>
+          <div class="divCellRight"><label for="previous_dose">Previous dose</label></div>
+        </div>
+-->
+        <div class="divRow">
+          <label for="changedESA">ESA (Aranesp/Darbepoetin) dosage change in the past 5 weeks:</label>
+        </div>
+
+        <div class="divRow">
+          <div class="divCellLeft"><input type="radio" id="increase" name="changedESA" onChange="check_vals();" value="Increased" /></div>
+          <div class="divCellRight"><label for="increase">Increased</label></div>
+        </div>
+
+        <div class="divRow">
+          <div class="divCellLeft"><input type="radio" id="noChange" name="changedESA" onChange="check_vals();" value="No change" checked /></div>
+          <div class="divCellRight"><label for="noChange">No change</label></div>
+        </div>
+
+        <div class="divRow">
+          <div class="divCellLeft"><input type="radio" id="reduced"  name="changedESA" onChange="check_vals();" value="Reduced" /></div>
+          <div class="divCellRight"><label for="reduced">Reduced</label></div>
+        </div>
+
+      </div>
+
+
+
+
+      <div>
+        <button type="button">Submit</button>
+        <button type="button" onClick="window.location.reload();">Clear</button>
+      </div>
+      
+    </form>
+    
+    <div id="result"></div>
+    
+  </div>
+
+
+  <div id="footer"></div>
+
+
+</div>
+</body>
+</html>
