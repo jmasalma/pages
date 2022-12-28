@@ -82,7 +82,7 @@ function check_vals_iron() {
     document.getElementById("iron_store").style.display = 'none';
     document.getElementById("result").innerHTML = `
 POSSIBLE IRON OVERLOAD<br />
-<b>HOLD IRON</b> (if currently receving iron)<br />
+<b>HOLD IRON</b> (if currently receving)<br />
 Measure TSAT and ferritin at next routine blood work cycle and reassess iron dosage regimen<br />
 Note: Notify MD if Iron Indices remain high for 3 consecutive blood work cycles
 `
