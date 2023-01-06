@@ -28,11 +28,25 @@ function check_vals_x(val) {
   let checker = arr => arr.some(Boolean);
 
   if (none) {
-    document.getElementById("result").innerHTML = "<div class='divTable'><div class='divRow'><a href='protocol.html'><div class='divCell nav-item'>Go to protocol</div></a></div></div>";
+    //document.getElementById("result").innerHTML = "<div class='divTable'><div class='divRow'><a href='protocol.html'><div class='divCell nav-item'>Go to protocol</div></a></div></div>";
+    document.getElementById("result").innerHTML = "";
+    document.getElementById("protocolButton").innerHTML = "Go to Protocol";
+    document.getElementById("protocolButton").setAttribute( "onClick", "javascript: location.href='protocol.html';" );
+    document.getElementById("protocolButton").classList.remove('btn-warning');
+    document.getElementById("protocolButton").classList.add('btn-primary');
+    
   } else if (checker(xs)) {
     document.getElementById("result").innerHTML = "notify the nephrologist to assess ongoing ESA";
+    document.getElementById("protocolButton").innerHTML = "Clear";
+    document.getElementById("protocolButton").setAttribute( "onClick", "javascript: window.location.reload();" );
+    document.getElementById("protocolButton").classList.remove('btn-primary');
+    document.getElementById("protocolButton").classList.add('btn-warning');
   } else if (!(none || checker(xs))) {
     document.getElementById("result").innerHTML = "";
+    document.getElementById("protocolButton").innerHTML = "Clear";
+    document.getElementById("protocolButton").setAttribute( "onClick", "javascript: window.location.reload();" );
+    document.getElementById("protocolButton").classList.remove('btn-primary');
+    document.getElementById("protocolButton").classList.add('btn-warning');
   }
 
 }
@@ -53,20 +67,24 @@ function check_vals() {
 
   // Statics...
   doseTable = `
-<table>
+<table class="table table-striped">
+<thead>
 <tr><th>Current Dose</th><th>If dose increase is required, change dose to</th><th>If dose decrease is required, change dose to</th></tr>
-<tr><td>10 mcg once every 4 weeks</td><td>10 mcg once every 2 weeks</td><td>Discontinue darbepoetin</td></tr>
-<tr><td>10 mcg once every 2 weeks</td><td>10 mcg once weekly</td><td>10 mcg once every 4 weeks</td></tr>
-<tr><td>10 mcg once weekly</td><td>20 mcg once weekly</td><td>10 mcg once every 2 weeks</td></tr>
-<tr><td>20 mcg once weekly</td><td>30 mcg once weekly</td><td>10 mcg once weekly</td></tr>
-<tr><td>30 mcg once weekly</td><td>40 mcg once weekly</td><td>20 mcg once weekly</td></tr>
-<tr><td>40 mcg once weekly</td><td>50 mcg once weekly</td><td>30 mcg once weekly</td></tr>
-<tr><td>50 mcg once weekly</td><td>60 mcg once weekly</td><td>40 mcg once weekly</td></tr>
-<tr><td>60 mcg once weekly</td><td>80 mcg once weekly</td><td>50 mcg once weekly</td></tr>
-<tr><td>80 mcg once weekly</td><td>100 mcg once weekly</td><td>60 mcg once weekly</td></tr>
-<tr><td>100 mcg once weekly</td><td>120 mcg once weekly</td><td>80 mcg once weekly</td></tr>
-<tr><td>120 mcg once weekly</td><td>150 mcg once weekly</td><td>100 mcg once weekly</td></tr>
-<tr><td>150 mcg once weekly</td><td>Notify nephrologist to assess hyporesponsiveness</td><td>120 mcg once weekly</td></tr>
+</thead>
+<tbody>
+<tr ><td>10 mcg once every 4 weeks</td><td>10 mcg once every 2 weeks</td><td>Discontinue darbepoetin</td></tr>
+<tr ><td>10 mcg once every 2 weeks</td><td>10 mcg once weekly</td><td>10 mcg once every 4 weeks</td></tr>
+<tr ><td>10 mcg once weekly</td><td>20 mcg once weekly</td><td>10 mcg once every 2 weeks</td></tr>
+<tr ><td>20 mcg once weekly</td><td>30 mcg once weekly</td><td>10 mcg once weekly</td></tr>
+<tr ><td>30 mcg once weekly</td><td>40 mcg once weekly</td><td>20 mcg once weekly</td></tr>
+<tr ><td>40 mcg once weekly</td><td>50 mcg once weekly</td><td>30 mcg once weekly</td></tr>
+<tr ><td>50 mcg once weekly</td><td>60 mcg once weekly</td><td>40 mcg once weekly</td></tr>
+<tr ><td>60 mcg once weekly</td><td>80 mcg once weekly</td><td>50 mcg once weekly</td></tr>
+<tr ><td>80 mcg once weekly</td><td>100 mcg once weekly</td><td>60 mcg once weekly</td></tr>
+<tr ><td>100 mcg once weekly</td><td>120 mcg once weekly</td><td>80 mcg once weekly</td></tr>
+<tr ><td>120 mcg once weekly</td><td>150 mcg once weekly</td><td>100 mcg once weekly</td></tr>
+<tr ><td>150 mcg once weekly</td><td>Notify nephrologist to assess hyporesponsiveness</td><td>120 mcg once weekly</td></tr>
+</tbody>
 </table>
 `
 
