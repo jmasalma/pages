@@ -4,6 +4,7 @@ function isEmpty(value) {
 
 
 
+
 function check_vals_x(val) {
 
   let checks_count = 8;
