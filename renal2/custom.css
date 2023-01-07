@@ -6,3 +6,11 @@ body {
   background-blend-mode: lighten;
   background-repeat: repeat;
 }
+
+
+#result{
+    display: block;
+}
+#result:empty{
+    display: none;
+}
