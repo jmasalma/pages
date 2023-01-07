@@ -76,12 +76,15 @@
       <div class="container">
         <div class="container">
       
-          <form id="form_esa" action="/">
+          <form id="form_esa" action="/" class="needs-validation" novalidate>
 
-            <div class="row">
-              <div class="col form-floating">
+            <div class="row ">
+              <div class="col  form-outline">
                 <input type="number" class="form-control" id="cHgb" name="cHgb" required minlength="0" maxlength="3" size="3" pattern="[0-9]*" inputmode="numeric" onChange="check_vals();" />
                 <label for="cHgb" class="form-label">Current Hgb measurement</label>
+
+<div class="invalid-feedback">Please provide value</div>
+
               </div>
             </div>
     
@@ -89,6 +92,9 @@
               <div class="col form-floating">
                 <input type="number" class="form-control" id="lmHgb" name="lmHgb" required minlength="0" maxlength="3" size="3" pattern="[0-9]*" inputmode="numeric" onChange="check_vals();" />
                 <label for="lmHgb" class="form-label">Hgb measurement from last month blood work</label>
+
+<div class="invalid-feedback">Please provide value</div>
+
               </div>
             </div>
     
@@ -136,7 +142,7 @@
 
             <div class="row mt-3">
               <div class="col">
-                <button type="button" class="btn btn-primary w-100" onClick="check_vals();">Submit</button>
+                <button id="myButton" type="button" class="btn btn-primary w-100" onClick="check_vals();">Submit</button>
               </div>
               <div class="col">
                 <button type="button" class="btn btn-warning w-100" onClick="window.location.reload();">Clear</button>

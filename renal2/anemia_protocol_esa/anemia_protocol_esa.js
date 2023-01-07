@@ -1,3 +1,37 @@
+
+/*
+(() => {
+  'use strict';
+
+  // Fetch all the forms we want to apply custom Bootstrap validation styles to
+  const form = document.querySelector('.needs-validation');
+	const btn = document.getElementById('myButton');
+  
+  btn.innerHTML = "xyz";
+  
+  btn.addEventListener('click', () => {
+    // Creating the event
+    const event = new Event('submit', {
+      'bubbles': true,
+      'cancelable': true
+    });
+    
+    form.dispatchEvent( event );
+  })
+
+  form.addEventListener('submit', (event) => {
+    if (!form.checkValidity()) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+    form.classList.add('was-validated');
+  }, false);
+})();
+*/
+
+
+
+
 function isEmpty(value) {
     return value === null || typeof(value) === 'undefined' || value === ''
 }
@@ -64,6 +98,37 @@ function calculateDose(value, increase) {
 
 
 function check_vals() {
+
+
+
+//  'use strict';
+
+  // Fetch all the forms we want to apply custom Bootstrap validation styles to
+  const form = document.querySelector('.needs-validation');
+	const btn = document.getElementById('myButton');
+
+  
+  btn.addEventListener('click', () => {
+    // Creating the event
+    const event = new Event('submit', {
+      'bubbles': true,
+      'cancelable': true
+    });
+    
+    form.dispatchEvent( event );
+  })
+
+  form.addEventListener('submit', (event) => {
+    if (!form.checkValidity()) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+    form.classList.add('was-validated');
+  }, false);
+
+
+
+
 
   // Statics...
   doseTable = `
