@@ -35,7 +35,7 @@ function check_vals_x(val) {
     document.getElementById("protocolButton").classList.add('btn-primary');
 
   } else if (checker(xs)) {
-    document.getElementById("result").innerHTML = "notify the nephrologist to assess ongoing ESA"
+    document.getElementById("result").innerHTML = "Notify the nephrologist to assess ongoing ESA"
     document.getElementById("protocolButton").innerHTML = "Clear";
     document.getElementById("protocolButton").setAttribute( "onClick", "javascript: window.location.reload();" );
     document.getElementById("protocolButton").classList.remove('btn-primary');

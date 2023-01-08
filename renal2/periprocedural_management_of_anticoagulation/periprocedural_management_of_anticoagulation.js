@@ -1,4 +1,4 @@
-
+/*
 $(document).ready(function() {
   // change dropdown button text when a dropdown option is clicked
   $('.my-dropdown-item').click(function() {
@@ -17,7 +17,7 @@ $(document).ready(function() {
 $(function () {
   $('[data-toggle="tooltip"]').tooltip()
 })
-
+*/
 
 
 const Strings = {};
@@ -78,12 +78,6 @@ function isEmpty(value) {
 }
 
 function check_vals(val) {
-  
-  //if (!isEmpty("newBridge")) {
-    //alert(newBridge);
-  //}
-  //alert("document.getElementById('warfarinIndication').value = " + document.getElementById("warfarinIndication").value);
-  //alert(document.getElementById("testing1").value);
 
   // Const
   let daysBefore = 7;
@@ -101,9 +95,7 @@ function check_vals(val) {
   //onAntiplatlets = document.getElementById("onAntiplatlets").checked;
   onAntiplatlets = document.getElementById("onAntiplatlets").value !== "notOnAntiplatlets";
   antiplatletType = document.getElementById("onAntiplatlets").value;
-  console.log("onAntiplatlets = "+ onAntiplatlets);
-  console.log("onAntiplatlets value = "+ document.getElementById("onAntiplatlets").value);
-  
+
   notifyMD = document.getElementById("notifyMD").checked;
   weight = document.getElementById("weight").value;
   procedureDate = document.getElementById("procedureDate").value;
@@ -154,9 +146,6 @@ function check_vals(val) {
   }
 
   notifyMDBridge = document.getElementById("notifyMDBridge").checked;
-  console.log("bridge = " + notifyMD);
-  console.log("maybeBridge = " + maybeBridge);
-  console.log("notifyMDBridge = " + notifyMDBridge);
   if (bridge || (maybeBridge && notifyMDBridge)) {
     document.getElementById("weightDiv").style.display = 'block';
   } else {
