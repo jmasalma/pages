@@ -1,0 +1,247 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Renal Protocols - ESA Assessment</title>
+    <link rel="icon" type="image/x-icon" href="../favicon.svg">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
+      integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" type="text/css" href="../custom.css">
+    <script type="text/javascript" src="periprocedural_management_of_anticoagulation.js"></script>
+  </head>
+
+  <body>
+
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+            <div class="container">
+                <a class="navbar-brand" href="../index.html">
+                    Renal Protocols
+                </a>
+
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
+                    aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarCollapse">
+                    <ul class="nav navbar-nav mr-auto">
+                        <li class="nav-item ">
+                            <a class="nav-link " href="../index.html">Home</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle active" href="#" id="nav-dropdown" data-bs-toggle="dropdown"
+                                aria-expanded="false">
+                                Protocols
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="nav-dropdown">
+                                <li><a class="dropdown-item" href="../anemia_protocol_esa/index.html">ESA</a></li>
+                                <li><a class="dropdown-item" href="../anemia_protocol_iron/index.html">Iron</a></li>
+                                <li><a class="dropdown-item active" href="index.html">Peri-Procedure Management of Anticoagulation</a></li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li><a class="dropdown-item" href="../index.html">All</a></li>
+                            </ul>
+                        </li>
+                       
+                        <li class="nav-item">
+                            <a class="nav-link " href="../about.html">
+                                About
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="../contact.html">Contact</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+
+    <main role="main">
+      <div class="container">
+        <h1 class="fw-bolder">
+          Renal Protocols - Peri-Procedure Management of Anticoagulation
+        </h1>
+        <h4 class="fw-normal fst-italic">Peri-Procedure Management of Anticoagulation...</h4>
+
+      </div>
+      <div class="container">
+        <div class="container">
+      
+          <form id="form_esa" action="/">
+
+            <div class="row">
+              <div class="col form-check form-switch">
+                <input type="checkbox" class="form-check-input" id="procedureTypeHold" name="procedureTypeHold" onChange="check_vals(this);" />
+                <label for="procedureTypeHold" class="form-check-label">Procedure type hold</label>
+              </div>
+            </div>
+
+
+            <div id="noProcedureTypeHoldDiv" style="display: none;">
+              
+              <div class="row" id="procedureDateDiv" style="display: block;">
+                <div class="col form-floating">
+                  <input type="date" class="form-control" id="procedureDate" name="procedureDate" onChange="check_vals(this);" />
+                  <label for="procedureDate" class="form-label">Procedure Date</label>
+                </div>
+              </div>
+
+
+
+
+
+              <div class="row" id="onAntiplatletsDiv">
+
+                <div class="col-4">
+                  <div class="col">
+                    <select class="form-select" aria-label="Antiplatelets" id="onAntiplatlets" name="onAntiplatlets" onChange="check_vals(this);">
+                      <option value="notOnAntiplatlets" selected>Not on Antiplatelets</option>
+                      <option value="ASA">ASA</option>
+                      <option value="Clopidogrel">Clopidogrel (Plavix)</option>
+                      <option value="Ticagrelor">Ticagrelor (Brilinta)</option>
+                    </select>
+                  </div>
+                  <!--
+                  <input type="checkbox" class="form-check-input" id="onAntiplatlets" name="onAntiplatlets" onChange="check_vals(this);" />
+                  <label for="onAntiplatlets" class="form-check-label">On Antiplatelets (e.g. ASA)</label>
+                  -->
+                </div>
+
+                <div id="recentMIDiv" class="col-4 form-check form-switch" style="display: none;">
+                  <input type="checkbox" class="form-check-input" id="recentMI" name="recentMI" onChange="check_vals(this);" />
+                  <label for="recentMI" class="form-check-label">Recent MI</label>
+                </div>
+
+                <div id="notifyMDDiv" class="col-4 form-check form-switch" style="display: none;">
+                  <input type="checkbox" class="form-check-input" id="notifyMD" name="notifyMD" onChange="check_vals(this);" />
+                  <label for="notifyMD" class="form-check-label">MD was notified and approved holding...</label>
+                </div>
+
+              </div>
+
+
+
+
+
+
+
+              <div class="row" id="onDOACDiv" style="display: block;">
+                <div class="col form-check form-switch">
+                  <input type="checkbox" class="form-check-input" id="onDOAC" name="onDOAC" onChange="check_vals(this);" />
+                  <label for="onDOAC" class="form-check-label">On DOAC</label>
+                </div>
+              </div>
+  
+              <div class="row" id="onWarfrinDiv" style="display: block;">
+                <div class="col form-check form-switch">
+                  <input type="checkbox" class="form-check-input" id="onWarfrin" name="onWarfrin" onChange="check_vals(this);" />
+                  <label for="onWarfrin" class="form-check-label">On Warfarin</label>
+                </div>
+              </div>
+  
+
+
+
+
+
+
+
+  
+              <div class="row" id="warfarinIndicationDiv" style="display: none;">
+                <div class="col">
+                  <select class="form-select" aria-label="Warfarin Indication" id="warfarinIndication" name="warfarinIndication" onChange="check_vals(this);">
+                    <option value="" selected>Warfarin Indication</option>
+                    <option value="noBridge">A.Fib</option>
+                    <option value="bridge">DVT</option>
+                    <option value="bridge">PE</option>
+                    <option value="noBridge">...</option>
+                  </select>
+                </div>
+              </div>
+
+
+
+
+
+
+              <div class="row " id="weightDiv" style="display: none;">
+                <div class="col form-floating">
+                  <input type="number" class="form-control" id="weight" name="weight" required minlength="0" maxlength="3" size="3" pattern="[0-9]*" inputmode="numeric" onChange="check_vals();" />
+                  <label for="weight" class="form-label">Patient Weight in Kg</label>
+                </div>
+              </div>
+
+
+
+
+
+
+
+            </div>
+
+
+
+
+
+
+            <div class="row mt-3">
+              <div class="col">
+                <button id="myButton" type="button" class="btn btn-primary w-100" onClick="check_vals();">Submit</button>
+              </div>
+              <div class="col">
+                <button type="button" class="btn btn-warning w-100" onClick="window.location.reload();">Clear</button>
+              </div>
+            </div>
+
+
+          </form>
+
+          <div class="row mt-3">
+            <div class="col">
+              <div id="result_w" class="alert alert-warning" role="alert"></div>
+            </div>
+          </div>
+
+
+
+
+          <div id="printableArea">
+
+
+          <div class="row mt-3">
+            <div class="col">
+              <div id="result" class="alert alert-secondary" role="alert">Nothing to do due to no hold...</div>
+            </div>
+          </div>
+
+
+          <div class="row mt-3">
+            <div class="col">
+              <div id="result_2" class="alert alert-secondary" role="alert"></div>
+            </div>
+          </div>
+
+
+
+        </div>
+
+
+
+        </div>
+      </div>
+    </main>
+
+
+  </body>
+</html>
+
