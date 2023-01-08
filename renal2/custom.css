@@ -14,3 +14,20 @@ body {
 #result:empty{
     display: none;
 }
+
+
+#result_w{
+    display: block;
+}
+#result_w:empty{
+    display: none;
+}
+
+
+
+#result_2{
+    display: block;
+}
+#result_2:empty{
+    display: none;
+}
