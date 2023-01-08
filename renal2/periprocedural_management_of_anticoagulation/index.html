@@ -7,11 +7,33 @@
     <title>Renal Protocols - ESA Assessment</title>
     <link rel="icon" type="image/x-icon" href="../favicon.svg">
 
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
       integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+<!--
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+-->
 
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+
+<!--
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js"
+      integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous"></script>
+-->
+<!-- Needed for dropdown tool tips!!! -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js"
+      integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+
+<!--
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+-->
+<!--
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+-->
     <link rel="stylesheet" type="text/css" href="../custom.css">
     <script type="text/javascript" src="periprocedural_management_of_anticoagulation.js"></script>
   </head>
@@ -87,6 +109,16 @@
             </div>
 
 
+
+
+
+
+
+
+
+
+
+
             <div id="noProcedureTypeHoldDiv" style="display: none;">
               
               <div class="row" id="procedureDateDiv" style="display: block;">
@@ -156,20 +188,80 @@
 
 
 
-  
+
               <div class="row" id="warfarinIndicationDiv" style="display: none;">
                 <div class="col">
-                  <select class="form-select" aria-label="Warfarin Indication" id="warfarinIndication" name="warfarinIndication" onChange="check_vals(this);">
-                    <option value="" selected>Warfarin Indication</option>
-                    <option value="noBridge">A.Fib</option>
-                    <option value="bridge">DVT</option>
-                    <option value="bridge">PE</option>
-                    <option value="noBridge">...</option>
+                  <select class="form-select" aria-label="Thromboembolism Risk" id="warfarinIndication" name="warfarinIndication" onChange="check_vals(this);" onmouseover="showElement('warfarinIndicationTipDiv')" onmouseout="hideElement('warfarinIndicationTipDiv')">
+                    <option value="" selected>Select a Warfarin Indication/Thromboembolism Risk:</option>
+                    <option value="bridge">High-Risk (bridging anticoagulation suggested)</option>
+                    <option value="maybeBridge">Intermediate-Risk (bridging anticoagulation optional and based on individual patient characteristics)</option>
+                    <option value="noBridge">Low-Risk (no bridging anticoagulation suggested)</option>
                   </select>
                 </div>
+
+                <div id="notifyMDBridgeDiv" class="col-4 form-check form-switch" style="display: none;">
+                  <input type="checkbox" class="form-check-input" id="notifyMDBridge" name="notifyMDBridge" onChange="check_vals(this);" />
+                  <label for="notifyMDBridge" class="form-check-label">MD was notified and approved bridging...</label>
+                </div>
+
+
+
+                <div class="alert alert-info" role="alert" id="warfarinIndicationTipDiv" style="display: none;">
+<b>High-Risk (bridging anticoagulation suggested):</b>
+<br />• any mechanical prosthetic mitral valve
+<br />• older generation (cage-ball, tilting disc) mechanical aortic valve
+<br />• recent (within 3 months) arterial thromboembolism (stroke, systemic embolism, transient ischemic attack [TIA])
+<br />• recent (within 3 months) venous thromboembolism (deep vein thrombosis, pulmonary embolism)
+<br />• prior arterial or venous thromboembolism during interruption of warfarin
+<br />• severe thrombophilia (e.g. deficiency of protein C, protein S or antithrombin, antiphospholipid antibodies)
+<br /><br /><b>Intermediate-Risk (bridging anticoagulation optional and based on individual patient characteristics):</b>
+<br />• newer generation (bileaflet) mechanical aortic valve
+<br />• bioprosthetic aortic valve
+<br />• chronic atrial fibrillation (valvular or nonvalvular) and at least 1 major stroke risk factor: prior stroke/TIA, left ventricular dysfunction, hypertension, diabetes, or age >75 years
+<br />• prior venous thromboembolism within last 3-12 months
+<br /><br /><b>Low-Risk (no bridging anticoagulation suggested):</b>
+<br />• chronic atrial fibrillation (valvular or nonvalvular) and no major stroke risk factors
+<br />• prior venous thromboembolism over 12 months ago
               </div>
 
 
+<!--
+              <div class="row" id="warfarinIndicationDiv" style="display: block;">
+                <div class="col">
+
+
+<input type="hidden" id="warfarinIndication" value="noneeee" onChange="check_vals();" />
+
+                  <div class="dropdown">
+                    <button type="button" class="btn btn-primary dropdown-toggle my-dropdown-toggle" data-toggle="dropdown">Warfarin Indication/Thromboembolism Risk</button>
+                    <div class="dropdown-menu">
+
+
+                      <button class="dropdown-item my-dropdown-item" id="testing1" value="test1" onClick="changeValue('warfarinIndication', '112233');" data-toggle="tooltip" title="<b>Testing:</b><br />a test">testing</button>
+
+
+
+                      <a class="dropdown-item my-dropdown-item" href="#" onClick="changeValue('warfarinIndication', '223344');" data-toggle="tooltip" title="<b>High-Risk (bridging anticoagulation suggested):</b>
+<br />• any mechanical prosthetic mitral valve
+<br />• older generation (cage-ball, tilting disc) mechanical aortic valve
+<br />• recent (within 3 months) arterial thromboembolism (stroke, systemic embolism, transient ischemic attack [TIA])
+<br />• recent (within 3 months) venous thromboembolism (deep vein thrombosis, pulmonary embolism)
+<br />• prior arterial or venous thromboembolism during interruption of warfarin
+<br />• severe thrombophilia (e.g. deficiency of protein C, protein S or antithrombin, antiphospholipid antibodies) ">High-Risk (Bridge)</a>
+                      <a class="dropdown-item my-dropdown-item" href="#" data-toggle="tooltip" title="<b>Intermediate-Risk (bridging anticoagulation optional and based on individual patient
+characteristics):</b>
+<br />• newer generation (bileaflet) mechanical aortic valve
+<br />• bioprosthetic aortic valve
+<br />• chronic atrial fibrillation (valvular or nonvalvular) and at least 1 major stroke risk factor: prior stroke/TIA, left ventricular dysfunction, hypertension, diabetes, or age >75 years
+<br />• prior venous thromboembolism within last 3-12 months ">Intermediate-Risk</a>
+                      <a class="dropdown-item my-dropdown-item" href="#" data-toggle="tooltip" title="<b>Low-Risk (no bridging anticoagulation suggested):</b>
+<br />• chronic atrial fibrillation (valvular or nonvalvular) and no major stroke risk factors
+<br />• prior venous thromboembolism over 12 months ago ">Low-Risk (No Bridge)</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+-->
 
 
 

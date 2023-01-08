@@ -31,3 +31,13 @@ body {
 #result_2:empty{
     display: none;
 }
+
+
+.tooltip-inner {
+    text-align: left;
+    max-width: 100% !important;
+}
+
+
+
+

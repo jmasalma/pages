@@ -1,11 +1,45 @@
+
+$(document).ready(function() {
+  // change dropdown button text when a dropdown option is clicked
+  $('.my-dropdown-item').click(function() {
+    $('.my-dropdown-toggle').text($(this).text());
+  });
+
+  // show html tooltip
+  $('[data-toggle="tooltip"]').tooltip({
+    html: true,
+    placement: "right",
+  });
+});
+
+
+
+$(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+})
+
+
+
 const Strings = {};
 Strings.orEmpty = function( entity ) {
     return entity || "";
 };
 
 
+function changeValue(id, val) {
+  document.getElementById(id).value = val;
+}
+
+function showElement(id) {
+  document.getElementById(id).style.display = 'block';
+}
+function hideElement(id) {
+  document.getElementById(id).style.display = 'none';
+}
+
+
 function printDiv(divName) {
-     var printContents = "<div> </div>" + document.getElementById(divName).innerHTML;
+     var printContents = "<div class='row'><div class='col'>Patient Information<br/><br/><br/><br/><br/></div></div>" + document.getElementById(divName).innerHTML;
      var originalContents = document.body.innerHTML;
 
      document.body.innerHTML = printContents;
@@ -44,6 +78,12 @@ function isEmpty(value) {
 }
 
 function check_vals(val) {
+  
+  //if (!isEmpty("newBridge")) {
+    //alert(newBridge);
+  //}
+  //alert("document.getElementById('warfarinIndication').value = " + document.getElementById("warfarinIndication").value);
+  //alert(document.getElementById("testing1").value);
 
   // Const
   let daysBefore = 7;
@@ -103,7 +143,21 @@ function check_vals(val) {
   }
 
   bridge = document.getElementById("warfarinIndication").value === "bridge";
-  if (bridge) {
+  maybeBridge = document.getElementById("warfarinIndication").value === "maybeBridge";
+  noBridge = document.getElementById("warfarinIndication").value === "noBridge";
+  
+  if (maybeBridge) {
+    document.getElementById("notifyMDBridgeDiv").style.display = 'block';
+  } else {
+    document.getElementById("notifyMDBridgeDiv").style.display = 'none';
+    document.getElementById("notifyMDBridge").checked = false;
+  }
+
+  notifyMDBridge = document.getElementById("notifyMDBridge").checked;
+  console.log("bridge = " + notifyMD);
+  console.log("maybeBridge = " + maybeBridge);
+  console.log("notifyMDBridge = " + notifyMDBridge);
+  if (bridge || (maybeBridge && notifyMDBridge)) {
     document.getElementById("weightDiv").style.display = 'block';
   } else {
     document.getElementById("weightDiv").style.display = 'none';
@@ -134,6 +188,10 @@ function check_vals(val) {
     document.getElementById("result_w").innerHTML = "";
   }
 
+  if (onDOAC) {
+    document.getElementById("result").innerHTML = "Hold DOAC 2 days before procedure";
+    document.getElementById("result_2").innerHTML = "";
+  }
 
   if (procedureTypeHold && !isEmpty(procedureDate) && onWarfrin) {
     var procedureDateDay = new Date(procedureDate.replace(/-/g,'/'));
@@ -161,7 +219,7 @@ function check_vals(val) {
     warfrinArray = warfrinArray.fill("restart", daysBefore, daysBefore+1);
 
     let tinzaparinArray = new Array(dayCount);
-    if (bridge && !isEmpty(weight)) {
+    if ((bridge || (maybeBridge && notifyMDBridge)) && !isEmpty(weight)) {
       // -2 to 0 day -> use
       tinzaparinArray = tinzaparinArray.fill( tinzaparinDose(weight) + " units", 4, daysBefore);
       // 0 day -> hold
@@ -205,15 +263,15 @@ function check_vals(val) {
       //planCal += day.toLocaleDateString("en-EN", { weekday: 'long' }) + " - " + day.toLocaleDateString() + " - antiplatlets: " + antiplatletsArray[i] + " - warfrin: " + warfrinArray[i] + " - tinzaparin: " + tinzaparinArray[i] + "<br />"
 
 
-      planCalt += "<div class='col mt-3 mr-3'><div class='row'>" +
+      planCalt += "<div class='col mt-3 mr-3 border'><div class='row'>" +
         "<div class='row '><div class='col " + datOfStyle + " rounded '>" + dayOf + day.toLocaleDateString("en-EN", { weekday: 'long' }) + "<br />" + day.toLocaleDateString() + "</div></div>";
       if (onAntiplatlets) {
         planCalt += "<div class='row '><div class='col'>" + antiplatletType + ": " + Strings.orEmpty(antiplatletsArray[i]) + "</div></div>";
       }
 
-      planCalt += "<div class='row'><div class='col'>warfrin: " + Strings.orEmpty(warfrinArray[i]) + "</div></div>";
+      planCalt += "<div class='row'><div class='col'>Warfarin: " + Strings.orEmpty(warfrinArray[i]) + "</div></div>";
       if (!isEmpty(tinzaparinArray[i])) {
-        planCalt += "<div class='row'><div class='col'>tinzaparin: " + Strings.orEmpty(tinzaparinArray[i]) + "</div></div>";
+        planCalt += "<div class='row'><div class='col'>Tinzaparin: " + Strings.orEmpty(tinzaparinArray[i]) + "</div></div>";
       }
       planCalt += "</div></div>";
 
@@ -226,7 +284,7 @@ function check_vals(val) {
 
       // generate 2 rows 7 cols 2 table with calculated data and update results...
       if (i === 6) {
-        planCalt += "</div><div class='row'>";
+        planCalt += "</div><div class='row '>";
       }
 
     }
@@ -244,6 +302,5 @@ function check_vals(val) {
     document.getElementById("result_2").innerHTML = planList;
 
   }
-
 
 }
