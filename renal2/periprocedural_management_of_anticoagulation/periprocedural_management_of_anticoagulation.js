@@ -52,6 +52,7 @@ function printDiv(divName) {
 
 function tinzaparinDose(weight) {
   let tinzaparinUnitsKg = 175;
+  /*
   if (weight <= 40) {
     return weight * tinzaparinUnitsKg;
   } else if (weight >= 41 && weight <= 50) {
@@ -69,7 +70,8 @@ function tinzaparinDose(weight) {
   } else if (weight > 110) {
     return weight * tinzaparinUnitsKg;
   }
-
+  */
+  return weight * tinzaparinUnitsKg;
 }
 
 
@@ -124,6 +126,12 @@ function check_vals(val) {
   if (!isEmpty(val) && val.id === "onWarfrin" && val.checked) {
     document.getElementById("onDOAC").checked = false;
   }
+
+  if (!isEmpty(val) && val.id === "weight") {
+    document.getElementById("overrideTinzaparin").value = "";
+  }
+
+
 //debugger;
   onWarfrin = document.getElementById("onWarfrin").checked;
   if (onWarfrin) {
@@ -182,6 +190,17 @@ function check_vals(val) {
     document.getElementById("result_2").innerHTML = "";
   }
 
+  if (procedureTypeHold && !isEmpty(procedureDate) && onWarfrin && !isEmpty(weight)) {
+    document.getElementById("calculatedTinzaparin").value = tinzaparinDose(weight);
+  }
+
+  overrideTinzaparin = document.getElementById("overrideTinzaparin").value;
+  if(isEmpty(overrideTinzaparin) && !isEmpty(weight)) {
+    displayTinzaparinDose = tinzaparinDose(weight);
+  } else if (!isEmpty(overrideTinzaparin)) {
+    displayTinzaparinDose = overrideTinzaparin;
+  }
+
   if (procedureTypeHold && !isEmpty(procedureDate) && onWarfrin) {
     var procedureDateDay = new Date(procedureDate.replace(/-/g,'/'));
 
@@ -210,11 +229,11 @@ function check_vals(val) {
     let tinzaparinArray = new Array(dayCount);
     if ((bridge || (maybeBridge && notifyMDBridge)) && !isEmpty(weight)) {
       // -2 to 0 day -> use
-      tinzaparinArray = tinzaparinArray.fill( tinzaparinDose(weight) + " units", 4, daysBefore);
+      tinzaparinArray = tinzaparinArray.fill( displayTinzaparinDose + " units", 4, daysBefore);
       // 0 day -> hold
       tinzaparinArray = tinzaparinArray.fill("hold", daysBefore, daysBefore+1);
       // 1 to 5 days -> restart (stop when INR is therapeutic)
-      tinzaparinArray = tinzaparinArray.fill(tinzaparinDose(weight) + " units (stop when INR is therapeutic)", daysBefore+1, dayCount);
+      tinzaparinArray = tinzaparinArray.fill(displayTinzaparinDose + " units (stop when INR is therapeutic)", daysBefore+1, dayCount);
     }
 
 
@@ -237,7 +256,7 @@ function check_vals(val) {
     }
     
     if (bridge && !isEmpty(weight)) {
-      planList += "Start Tinzaparin at " + tinzaparinDose(weight) + " units 3 days before porcedure<br />";
+      planList += "Start Tinzaparin at " + displayTinzaparinDose + " units 3 days before porcedure<br />";
     }
     
     for (let i = 0; i < dayCount; i++) {

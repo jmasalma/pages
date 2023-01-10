@@ -105,14 +105,12 @@
               <div class="row" id="onAntiplatletsDiv">
 
                 <div class="col-4">
-                  <div class="col">
-                    <select class="form-select" aria-label="Antiplatelets" id="onAntiplatlets" name="onAntiplatlets" onChange="check_vals(this);">
-                      <option value="notOnAntiplatlets" selected>Not on Antiplatelets</option>
-                      <option value="ASA">ASA</option>
-                      <option value="Clopidogrel">Clopidogrel (Plavix)</option>
-                      <option value="Ticagrelor">Ticagrelor (Brilinta)</option>
-                    </select>
-                  </div>
+                  <select class="form-select" aria-label="Antiplatelets" id="onAntiplatlets" name="onAntiplatlets" onChange="check_vals(this);">
+                    <option value="notOnAntiplatlets" selected>Not on Antiplatelets</option>
+                    <option value="ASA">ASA</option>
+                    <option value="Clopidogrel">Clopidogrel (Plavix)</option>
+                    <option value="Ticagrelor">Ticagrelor (Brilinta)</option>
+                  </select>
                 </div>
 
                 <div id="recentMIDiv" class="col-4 form-check form-switch" style="display: none;">
@@ -142,7 +140,6 @@
                 </div>
               </div>
 
-
               <div class="row" id="warfarinIndicationDiv" style="display: none;">
                 <div class="col">
                   <select class="form-select" aria-label="Thromboembolism Risk" id="warfarinIndication" name="warfarinIndication" onChange="check_vals(this);" onmouseover="showElement('warfarinIndicationTipDiv')" onmouseout="hideElement('warfarinIndicationTipDiv')">
@@ -151,39 +148,49 @@
                     <option value="maybeBridge">Intermediate-Risk (bridging anticoagulation optional and based on individual patient characteristics)</option>
                     <option value="noBridge">Low-Risk (no bridging anticoagulation suggested)</option>
                   </select>
-                </div>
 
-                <div id="notifyMDBridgeDiv" class="col-4 form-check form-switch" style="display: none;">
-                  <input type="checkbox" class="form-check-input" id="notifyMDBridge" name="notifyMDBridge" onChange="check_vals(this);" />
-                  <label for="notifyMDBridge" class="form-check-label">MD was notified and approved bridging...</label>
-                </div>
-
+                  <div id="notifyMDBridgeDiv" class="col-4 form-check form-switch" style="display: none;">
+                    <input type="checkbox" class="form-check-input" id="notifyMDBridge" name="notifyMDBridge" onChange="check_vals(this);" />
+                    <label for="notifyMDBridge" class="form-check-label">MD was notified and approved bridging...</label>
+                  </div>
 
 
-                <div class="alert alert-info" role="alert" id="warfarinIndicationTipDiv" style="display: none;">
-                  <b>High-Risk (bridging anticoagulation suggested):</b>
-                  <br />• any mechanical prosthetic mitral valve
-                  <br />• older generation (cage-ball, tilting disc) mechanical aortic valve
-                  <br />• recent (within 3 months) arterial thromboembolism (stroke, systemic embolism, transient ischemic attack [TIA])
-                  <br />• recent (within 3 months) venous thromboembolism (deep vein thrombosis, pulmonary embolism)
-                  <br />• prior arterial or venous thromboembolism during interruption of warfarin
-                  <br />• severe thrombophilia (e.g. deficiency of protein C, protein S or antithrombin, antiphospholipid antibodies)
-                  <br /><br /><b>Intermediate-Risk (bridging anticoagulation optional and based on individual patient characteristics):</b>
-                  <br />• newer generation (bileaflet) mechanical aortic valve
-                  <br />• bioprosthetic aortic valve
-                  <br />• chronic atrial fibrillation (valvular or nonvalvular) and at least 1 major stroke risk factor: prior stroke/TIA, left ventricular dysfunction, hypertension, diabetes, or age >75 years
-                  <br />• prior venous thromboembolism within last 3-12 months
-                  <br /><br /><b>Low-Risk (no bridging anticoagulation suggested):</b>
-                  <br />• chronic atrial fibrillation (valvular or nonvalvular) and no major stroke risk factors
-                  <br />• prior venous thromboembolism over 12 months ago
+                  <div class="col alert alert-info" role="alert" id="warfarinIndicationTipDiv" style="display: none;">
+                    <b>High-Risk (bridging anticoagulation suggested):</b>
+                    <br />• any mechanical prosthetic mitral valve
+                    <br />• older generation (cage-ball, tilting disc) mechanical aortic valve
+                    <br />• recent (within 3 months) arterial thromboembolism (stroke, systemic embolism, transient ischemic attack [TIA])
+                    <br />• recent (within 3 months) venous thromboembolism (deep vein thrombosis, pulmonary embolism)
+                    <br />• prior arterial or venous thromboembolism during interruption of warfarin
+                    <br />• severe thrombophilia (e.g. deficiency of protein C, protein S or antithrombin, antiphospholipid antibodies)
+                    <br /><br /><b>Intermediate-Risk (bridging anticoagulation optional and based on individual patient characteristics):</b>
+                    <br />• newer generation (bileaflet) mechanical aortic valve
+                    <br />• bioprosthetic aortic valve
+                    <br />• chronic atrial fibrillation (valvular or nonvalvular) and at least 1 major stroke risk factor: prior stroke/TIA, left ventricular dysfunction, hypertension, diabetes, or age >75 years
+                    <br />• prior venous thromboembolism within last 3-12 months
+                    <br /><br /><b>Low-Risk (no bridging anticoagulation suggested):</b>
+                    <br />• chronic atrial fibrillation (valvular or nonvalvular) and no major stroke risk factors
+                    <br />• prior venous thromboembolism over 12 months ago
+                  </div>
                 </div>
 
               </div>
 
-              <div class="row " id="weightDiv" style="display: none;">
-                <div class="col form-floating">
-                  <input type="number" class="form-control" id="weight" name="weight" required minlength="0" maxlength="3" size="3" pattern="[0-9]*" inputmode="numeric" onChange="check_vals();" />
-                  <label for="weight" class="form-label">Patient Weight in Kg</label>
+
+              <div id="weightDiv" style="display: none;">
+                <div class="row ">
+                  <div class="col-4 form-floating">
+                    <input type="number" class="form-control" id="weight" name="weight" required minlength="0" maxlength="3" size="3" pattern="[0-9]*" inputmode="numeric" onChange="check_vals(this);" />
+                    <label for="weight" class="form-label">Patient Weight in Kg</label>
+                  </div>
+                  <div class="col-4 form-floating">
+                    <input type="number" class="form-control" id="calculatedTinzaparin" name="calculatedTinzaparin" required minlength="0" maxlength="3" size="3" pattern="[0-9]*" inputmode="numeric" disabled />
+                    <label for="calculatedTinzaparin" class="form-label">Calculated Tinzaparin Unites</label>
+                  </div>
+                  <div class="col-4 form-floating">
+                    <input type="number" class="form-control" id="overrideTinzaparin" name="overrideTinzaparin" required minlength="0" maxlength="3" size="3" pattern="[0-9]*" inputmode="numeric" onChange="check_vals();" />
+                    <label for="overrideTinzaparin" class="form-label">Override Tinzaparin</label>
+                  </div>
                 </div>
               </div>
 
@@ -239,7 +246,7 @@
     </main>
 
 
-    <div class="navbar fixed-bottom ms-3 me-3">© Us.<small>v.20230108.1118</small></div>
+    <div class="navbar fixed-bottom ms-3 me-3">© JM.<small>v.20230110.0627</small></div>
   </body>
 </html>
 
