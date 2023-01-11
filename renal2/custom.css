@@ -39,5 +39,10 @@ body {
 }
 
 
-
+.footer-text span {
+  display: none;
+}
+.footer-text:after {
+  content: '© JM                v.20230111.0754';
+}
 
