@@ -105,7 +105,8 @@ opacity: 0.7;
 <script>
 //invokes firebase authentication. 
 
-const auth = firebase.auth();
+//const auth = firebase.auth();
+const auth = getAuth(firebaseApp);
  document.querySelector("#show-register").addEventListener("click", () => {
 showRegistration();
 });
@@ -198,7 +199,8 @@ document
 });
 
 const authenticate = (email, password) => {
-const auth = firebase.auth();
+//const auth = firebase.auth();
+const auth = getAuth(firebaseApp);
 auth.signInWithEmailAndPassword(email, password);
 firebase
     .auth()
