@@ -75,6 +75,62 @@ opacity: 0.7;
     
 
     
+    
+<script>
+//invokes firebase authentication. 
+//import { getAuth, onAuthStateChanged } from "firebase/auth";
+</script>
+    
+    
+ </head>
+  <body>
+    <div id="firebaseui-auth-container">
+      <!-- This is where the Login ui will load -->
+    </div>
+    
+    
+<div class="forms-out">
+    <div class="forms-in">
+      <div id="registration-page" class="hide">
+        <button id="show-login">Sign In</button>
+        <h3>Sign Up</h3>
+        Email <br />
+        <input type="email" id="registration-email" /><br />
+        Confirm Email <br />
+        <input
+        type="email"
+        id="registration-reemail"
+        autocomplete="disable"
+        /><br />
+        Password <br />
+        <input type="password" id="registration-password" /><br />
+        <center><button id="register">Sign Up</button></center>
+      </div>
+
+      <div id="login-page">
+        <button id="show-register">Sign Up</button>
+        <h3>Sign In</h3>
+        Email <br />
+        <input type="email" id="login-email" /><br />
+        Password <br />
+        <input type="password" id="login-password" /><br />
+        <p id="forgot-password">Forgot Password</p>
+        <center><button id="login">Sign In</button></center>
+      </div>
+
+      <div id="homepage" class="hide">
+        <button id="signout">Sign Out</button>
+        <h3>Logged In</h3>
+      </div>
+    </div>
+</div>
+
+  
+  
+  
+  
+  
+    
     <script type="module">
       // Import the functions you need from the SDKs you need
       import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
@@ -97,14 +153,13 @@ opacity: 0.7;
       // Initialize Firebase
       const app = initializeApp(firebaseConfig);
       const analytics = getAnalytics(app);
-    </script>
-
-    
-    
-    
-<script>
-//invokes firebase authentication. 
-import { getAuth, onAuthStateChanged } from "firebase/auth";
+      
+      
+      
+      
+      
+      
+      
 
 //const auth = firebase.auth();
 const auth = getAuth(firebaseApp);
@@ -259,50 +314,16 @@ auth
     alert("invalid email or bad network connection");
     });
 };
-</script>
-    
-    
- </head>
-  <body>
-    <div id="firebaseui-auth-container">
-      <!-- This is where the Login ui will load -->
-    </div>
-    
-    
-<div class="forms-out">
-    <div class="forms-in">
-      <div id="registration-page" class="hide">
-        <button id="show-login">Sign In</button>
-        <h3>Sign Up</h3>
-        Email <br />
-        <input type="email" id="registration-email" /><br />
-        Confirm Email <br />
-        <input
-        type="email"
-        id="registration-reemail"
-        autocomplete="disable"
-        /><br />
-        Password <br />
-        <input type="password" id="registration-password" /><br />
-        <center><button id="register">Sign Up</button></center>
-      </div>
 
-      <div id="login-page">
-        <button id="show-register">Sign Up</button>
-        <h3>Sign In</h3>
-        Email <br />
-        <input type="email" id="login-email" /><br />
-        Password <br />
-        <input type="password" id="login-password" /><br />
-        <p id="forgot-password">Forgot Password</p>
-        <center><button id="login">Sign In</button></center>
-      </div>
+      
+      
+      
+    </script>
 
-      <div id="homepage" class="hide">
-        <button id="signout">Sign Out</button>
-        <h3>Logged In</h3>
-      </div>
-    </div>
-</div>
-      </body>
+    
+  
+  
+  
+  
+  </body>
 </html>
