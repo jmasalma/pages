@@ -160,7 +160,7 @@ opacity: 0.7;
       
       
       
-
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 //const auth = firebase.auth();
 const auth = getAuth(firebaseApp);
  document.querySelector("#show-register").addEventListener("click", () => {
