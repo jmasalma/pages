@@ -104,6 +104,7 @@ opacity: 0.7;
     
 <script>
 //invokes firebase authentication. 
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 //const auth = firebase.auth();
 const auth = getAuth(firebaseApp);
