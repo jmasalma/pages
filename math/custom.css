@@ -46,3 +46,8 @@ body {
   content: '© RenalToolbox.com                v.20230318.01';
 }
 
+
+
+.fraction-top{border-bottom:solid black 1px; display:inline-block; float:left}
+.fraction-bottom{ display:inline-block; clear:left; float:left}
+
