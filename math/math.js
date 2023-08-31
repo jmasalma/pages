@@ -20,8 +20,8 @@ function getRandomIntInclusive(min, max) {
 function doQuestion(item) {
   random = Math.floor(Math.random() * dividers.length);
   random_dividers = dividers[random];
-  fraction_top = getRandomIntInclusive(1,20) * random_dividers;
-  fraction_bottom = getRandomIntInclusive(2,40) * random_dividers;
+  fraction_top = getRandomIntInclusive(1,10) * random_dividers;
+  fraction_bottom = getRandomIntInclusive(2,10) * random_dividers;
   //alert(fraction_top);
   $("#fraction-top-q").val(fraction_top);
   $("#fraction-bottom-q").val(fraction_bottom);
@@ -54,4 +54,16 @@ function doMath(item) {
   
   
 }
+
+
+/*
+
+Save progress
+add done buttom
+show stats
+add reset button
+load next question when correct and show message
+show hint or solve button
+
+*/
 
