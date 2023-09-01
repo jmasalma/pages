@@ -116,28 +116,83 @@
             </div>
 
 
+
             <div class="row mt-3">
               <div class="col">
-                Simplify
+                <button id="myButton" type="button" class="btn btn-secondary w-100" onClick="doMath('fractions');">Fractions</button>
               </div>
               <div class="col">
-                <div class="fraction-top"><input type="number" class="form-control" id="fraction-top-q" name="fraction-top-q" required minlength="0" maxlength="3" size="3" pattern="[0-9]*" inputmode="numeric" value=2 disabled /></div>
-                <div class="fraction-bottom"><input type="number" class="form-control" id="fraction-bottom-q" name="fraction-bottom-q" required minlength="0" maxlength="3" size="3" pattern="[0-9]*" inputmode="numeric" value=4 disabled /></div>
+                <button id="myButton" type="button" class="btn btn-secondary w-100" onClick="doMath('square_roots');">Square Roots</button>
               </div>
               <div class="col">
-                <div class="fraction-top"><input type="number" class="form-control" id="fraction-top-a" name="fraction-top-a" required minlength="0" maxlength="3" size="3" pattern="[0-9]*" inputmode="numeric" /></div>
-                <div class="fraction-bottom"><input type="number" class="form-control" id="fraction-bottom-a" name="fraction-bottom-a" required minlength="0" maxlength="3" size="3" pattern="[0-9]*" inputmode="numeric" /></div>
-
+                <button id="myButton" type="button" class="btn btn-secondary w-100" onClick="doMath('xyz');">XYZ</button>
               </div>
             </div>
 
 
+
+
+            <div class="row mt-3">
+              <div class="col" id="action_type">
+                Select Quiz...
+              </div>
+
+              <div class="col" id="fraction-q" style="display: none;">
+                <div class="fraction-top"><input type="number" class="form-control" id="fraction-top-q" name="fraction-top-q" required minlength="0" maxlength="3" size="3" pattern="[0-9]*" inputmode="numeric" value="" disabled /></div>
+                <div class="fraction-bottom"><input type="number" class="form-control" id="fraction-bottom-q" name="fraction-bottom-q" required minlength="0" maxlength="3" size="3" pattern="[0-9]*" inputmode="numeric" value="" disabled /></div>
+              </div>
+
+              <div class="col" id="fraction-a" style="display: none;">
+                <div class="fraction-top"><input type="number" class="form-control" id="fraction-top-a" name="fraction-top-a" required minlength="0" maxlength="3" size="3" pattern="[0-9]*" inputmode="numeric" /></div>
+                <div class="fraction-bottom"><input type="number" class="form-control" id="fraction-bottom-a" name="fraction-bottom-a" required minlength="0" maxlength="3" size="3" pattern="[0-9]*" inputmode="numeric" /></div>
+
+              </div>
+
+
+
+              <div class="col" id="square_roots-q-div" style="display: none;">
+                <span>&#8730;</span><span id="square_roots-q" style="border-top: 1px solid black"></span>
+              </div>
+
+              <div class="col" id="square_roots-a-div" style="display: none;">
+                <input type="number" class="form-control" id="square_roots-a" name="square_roots-a" required minlength="0" maxlength="3" size="3" pattern="[0-9]*" inputmode="numeric" />
+              </div>
+
+            </div>
+
+
+
+
+
+
             <div class="row mt-3">
               <div class="col">
-                <button id="myButton" type="button" class="btn btn-primary w-100" onClick="doMath(this);">Submit</button>
+                <button id="myButton" type="button" class="btn btn-primary w-100" onClick="doMath();">Submit</button>
               </div>
               <div class="col">
                 <button type="button" class="btn btn-warning w-100" onClick="window.location.reload();">Clear</button>
+              </div>
+              <div class="col">
+                <button id="myButton" type="button" class="btn btn-danger w-100" onClick="doReset();">Reset Stats</button>
+              </div>
+            </div>
+
+
+
+            <div class="row mt-3">
+              <div class="col">
+                Correct
+              </div>
+              <div class="col">
+                Wrong
+              </div>
+            </div>
+            <div class="row mt-3" >
+              <div class="col" id="correct-stat">
+                0
+              </div>
+              <div class="col" id="wrong-stat">
+                0
               </div>
             </div>
 
