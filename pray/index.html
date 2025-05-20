@@ -813,7 +813,7 @@ TODO: Fix full screen
 
         if (tz.startsWith("America/")) {
             // MoonsightingCommittee is preferred for North America according to Adhan.js docs
-            return adhan.CalculationMethod.MoonsightingCommittee();
+            return adhan.CalculationMethod.NorthAmerica();
         } else if (tz.startsWith("Europe/")) {
             if (tz === "Europe/London") {
                 return adhan.CalculationMethod.MoonsightingCommittee();
