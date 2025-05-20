@@ -246,7 +246,7 @@ ToDo: Fix notification text for iftar/sahoor...
           <p style="display:inline" id="PTDate">date...</p>
         </h4>
         <p id="locationName" class="text-center" style="font-size: calc(1.5vmax); margin-top: 5px; margin-bottom: 0px;"></p> <!-- For City, Country -->
-        <p id="nominatimAttribution" class="text-center" style="font-size: calc(0.8vmax); display:none; margin-bottom: 10px;"></p> <!-- For OSM attribution -->
+<!--         <p id="nominatimAttribution" class="text-center" style="font-size: calc(0.8vmax); display:none; margin-bottom: 10px;"></p> <!-- For OSM attribution --> -->
       </div>
 
       <div class="container">
@@ -476,7 +476,7 @@ ToDo: Fix notification text for iftar/sahoor...
           
           $('#locationName').text(locationString);
 
-          if (data.licence) {
+          if (false) {
             // Display OSM attribution
             $('#nominatimAttribution').html(`Location data by <a href="https://openstreetmap.org" target="_blank">OpenStreetMap</a> contributors, licensed under <a href="https://opendatacommons.org/licenses/odbl/" target="_blank">ODbL</a>. Nominatim API used. (${data.licence.split('https:')[0].trim()})`).show();
           }
