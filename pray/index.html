@@ -245,6 +245,8 @@ ToDo: Fix notification text for iftar/sahoor...
         <h4 class="fw-normal text-center fst-italic">
           <p style="display:inline" id="PTDate">date...</p>
         </h4>
+        <p id="locationName" class="text-center" style="font-size: calc(1.5vmax); margin-top: 5px; margin-bottom: 0px;"></p> <!-- For City, Country -->
+        <p id="nominatimAttribution" class="text-center" style="font-size: calc(0.8vmax); display:none; margin-bottom: 10px;"></p> <!-- For OSM attribution -->
       </div>
 
       <div class="container">
@@ -359,14 +361,14 @@ ToDo: Fix notification text for iftar/sahoor...
       if (hours == 0) {
         hours = 12;
       }
-      if (minutes < 10) {
-        minutes = "0" + minutes;
-      }
-      if (seconds < 10) {
-        seconds = "0" + seconds;
-      }
-      $('#timehere').html(hours + ":" + minutes + ":" + seconds + " " + period);
-      setTimeout(mytime, 500);
+      // if (minutes < 10) {  // no longer needed due to pad function
+      //   minutes = "0" + minutes;
+      // }
+      // if (seconds < 10) { // no longer needed due to pad function
+      //   seconds = "0" + seconds;
+      // }
+      $('#timehere').html(pad(hours) + ":" + pad(minutes) + ":" + pad(seconds) + " " + period);
+      setTimeout(mytime, 1000);
     }
 
     function getUrlParameter(param) {
@@ -405,7 +407,6 @@ ToDo: Fix notification text for iftar/sahoor...
 
     function initializePage() {
       if (latitude && longitude) {
-        console.log("useLocation(" + latitude + ", " + longitude + ");");
         useLocation(latitude, longitude);
       } else {
         getLocation();
@@ -430,17 +431,68 @@ ToDo: Fix notification text for iftar/sahoor...
 
       const coordinates = new adhan.Coordinates(lat, long);
 
+      // Reverse geocode to get city name
+      $('#locationName').text("Fetching location..."); // Initial message
+      $('#nominatimAttribution').hide();
+      fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${long}&zoom=10&addressdetails=1&accept-language=en`)
+        .then(response => {
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+          return response.json();
+        })
+        .then(data => {
+          const address = data.address;
+          let locationParts = [];
+
+          // Build location string from available address components
+          if (address.city) {
+            locationParts.push(address.city);
+          } else if (address.town) {
+            locationParts.push(address.town);
+          } else if (address.village) {
+            locationParts.push(address.village);
+          } else if (address.hamlet) {
+            locationParts.push(address.hamlet);
+          } else if (address.county && locationParts.length === 0) { 
+            // Use county if no finer-grained city/town/village is found
+            locationParts.push(address.county);
+          }
+
+          if (address.country) {
+            locationParts.push(address.country);
+          }
+
+          let locationString;
+          if (locationParts.length > 0) {
+            locationString = locationParts.join(', ');
+          } else if (data.display_name) {
+            // Fallback to display_name if address parts didn't yield a good string
+            // Take up to first 3 comma-separated values for brevity
+            locationString = data.display_name.split(',').map(s => s.trim()).slice(0, 3).join(', ');
+          } else {
+            locationString = "Location data unavailable";
+          }
+          
+          $('#locationName').text(locationString);
+
+          if (data.licence) {
+            // Display OSM attribution
+            $('#nominatimAttribution').html(`Location data by <a href="https://openstreetmap.org" target="_blank">OpenStreetMap</a> contributors, licensed under <a href="https://opendatacommons.org/licenses/odbl/" target="_blank">ODbL</a>. Nominatim API used. (${data.licence.split('https:')[0].trim()})`).show();
+          }
+        })
+        .catch(error => {
+          $('#locationName').text("Location could not be determined.");
+          $('#nominatimAttribution').hide();
+        });
+
       var CalculationMethod = getUrlParameter('CalculationMethod');
-      console.log("URL CalculationMethod = " + CalculationMethod);
 
       var fasting = getUrlParameter('fasting');
-      console.log("URL fasting = " + fasting);
 
       var madhab = getUrlParameter('madhab');
-      console.log("URL madhab = " + madhab);
 
       var useDate = getUrlParameter('useDate');
-      console.log("URL useDate = " + useDate);
 
       var showtime = getUrlParameter('showtime');
       if (!showtime || showtime == "yes") {
@@ -449,7 +501,6 @@ ToDo: Fix notification text for iftar/sahoor...
         showtime = false;
         document.getElementById('timehereDiv').style.display = 'none';
       }
-      console.log("URL showtime = " + showtime);
 
       var showday = getUrlParameter('showday');
       if (!showday || showday == "day") {
@@ -457,7 +508,6 @@ ToDo: Fix notification text for iftar/sahoor...
       } else {
         showday = false;
       }
-      console.log("URL showday = " + showday);
 
       var showcount = getUrlParameter('showcount');
       if (!showcount || showcount == "yes") {
@@ -467,7 +517,6 @@ ToDo: Fix notification text for iftar/sahoor...
         document.getElementById('countDownTo').style.display = 'none';
         document.getElementById('countDownTimer').style.display = 'none';
       }
-      console.log("URL showcount = " + showcount);
 
       if (useDate) {
         var date = new Date(useDate);
@@ -479,7 +528,6 @@ ToDo: Fix notification text for iftar/sahoor...
       nextDate.setDate(nextDate.getDate() + 1);
 
       var tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
-      console.log("TZ = " + tz);
 
       var params = getCalculationParams(CalculationMethod, tz);
 
@@ -497,22 +545,13 @@ ToDo: Fix notification text for iftar/sahoor...
 
       var pastMidnight = false;
 
-      console.log(prayerTimes.nextPrayer());
-      console.log(prayerTimes.timeForPrayer(prayerTimes.nextPrayer()));
-      console.log(Date());
 
       if (prayerTimes.nextPrayer() == "fajr") {
-        console.log("next is fajir...");
-        console.log("Are we before or after midnight...");
-        console.log(moment(date).format('MMMM DD, YYYY'));
-        console.log(moment(prayerTimes.timeForPrayer(prayerTimes.nextPrayer())).format('MMMM DD, YYYY'));
         if (moment(date).format('MMMM DD, YYYY') == moment(prayerTimes.timeForPrayer(prayerTimes.nextPrayer())).format('MMMM DD, YYYY')) {
-          console.log("We are past midnight");
           pastMidnight = true;
           xCountDownDate = moment(prayerTimes.fajr);
           xxCountDownDate = moment(prayerTimes.timeForPrayer(prayerTimes.nextPrayer()));
         } else {
-          console.log("We are before midnight");
           pastMidnight = false;
           xCountDownDate = moment(nextPrayerTimes.fajr);
           xxCountDownDate = moment(nextPrayerTimes.timeForPrayer(nextPrayerTimes.nextPrayer()));
@@ -551,7 +590,6 @@ ToDo: Fix notification text for iftar/sahoor...
 
       aStar = "> "
       var np = prayerName(prayerTimes.nextPrayer());
-      console.log("np = " + np);
 
       indexOf = (arr, q) => arr.findIndex(item => q.toLowerCase() === item.toLowerCase());
 
@@ -559,7 +597,6 @@ ToDo: Fix notification text for iftar/sahoor...
       if (npIndex < 0) {
         npIndex = 6;
       }
-      console.log('npIndex = ' + npIndex);
 
       var highlightRowIndex = npIndex;
       if (showday) {
@@ -595,10 +632,7 @@ ToDo: Fix notification text for iftar/sahoor...
 
       var ramadan_countDownDate = null;
       if (fasting == 1 || (!fasting && higriMonth == "Ramadan")) {
-        console.log(higriMonth);
-        console.log(prayerTimes.nextPrayer());
         if (prayerTimes.nextPrayer() == 'sunrise' || prayerTimes.nextPrayer() == 'dhuhr' || prayerTimes.nextPrayer() == 'asr' || prayerTimes.nextPrayer() == 'maghrib') {
-          console.log("next is maghrib");
           if (prayerTimes.nextPrayer() == 'maghrib') {
             var countDownDate = moment(prayerTimes.timeForPrayer(prayerTimes.nextPrayer()));
             var nextP = "Iftar/Maghrib";
@@ -608,25 +642,18 @@ ToDo: Fix notification text for iftar/sahoor...
             var nextP = prayerName(prayerTimes.nextPrayer()) + " in<br>" + "Iftar";
           }
         } else {
-          console.log("next is fajr");
-          console.log(prayerTimes.nextPrayer());
-          console.log(prayerName(prayerTimes.nextPrayer()));
           // if (prayerTimes.nextPrayer() == 'fajr') {
           if (prayerName(prayerTimes.nextPrayer()) != "Isha") {
-            console.log("Next not fajr");
             // var countDownDate = moment(prayerTimes.timeForPrayer(prayerTimes.nextPrayer()));
             var countDownDate = xxCountDownDate;
             var nextP = "Sahour ends/Fajr";
           } else {
-            console.log("next is not fajr");
-            console.log(prayerName(prayerTimes.nextPrayer()));
             var ramadan_countDownDate = xCountDownDate;
             var countDownDate = moment(prayerTimes.timeForPrayer(prayerTimes.nextPrayer()));;
             var nextP = prayerName(prayerTimes.nextPrayer()) + " in<br>" + "Sahour ends";
           }
         }
       } else {
-        console.log("else...");
         var countDownDate = moment(prayerTimes.timeForPrayer(prayerTimes.nextPrayer()));
         var nextP = prayerName(prayerTimes.nextPrayer());
       }
@@ -635,7 +662,7 @@ ToDo: Fix notification text for iftar/sahoor...
         var countDownDate = xxCountDownDate;
         var nextP = "Fajr";
       }
-      // console.log("countDownDate = " + countDownDate);
+      // // // console.log("countDownDate = " + countDownDate);
 
       var x = setInterval(function () {
         if (useDate) {
@@ -678,13 +705,28 @@ ToDo: Fix notification text for iftar/sahoor...
           var endColor = "red";
           var startRatio = Math.floor((tMinutes * 100) / minGradientStart);
           var transRatio = startRatio + 15;
+          // Ensure transRatio is clamped if necessary, though browsers usually handle >100% gracefully in gradients
+          // For example: transRatio = Math.min(100, startRatio + 15); if endColor should not exceed 100% mark from startRatio
           var backgroundStyle = "linear-gradient(to left, " + startColor + " " + startRatio + "%, " + endColor + " " + transRatio + "%)";
-          document.getElementById('row' + highlightRowIndex).style.background = backgroundStyle;
+          
+          let prayerRowToHighlight = document.getElementById('row' + highlightRowIndex);
+          if (prayerRowToHighlight) {
+            prayerRowToHighlight.style.background = backgroundStyle;
+          }
           document.getElementById("countDownTimer").style.background = backgroundStyle;
         } else {
-          for (let i = 0; i < 7; i++) {
-            document.getElementById('row' + i).style.background = "gray";
+          // Only reset the background of the specific active prayer row and the countdown timer
+          let activePrayerRow = document.getElementById('row' + highlightRowIndex);
+          if (activePrayerRow) {
+            activePrayerRow.style.background = "gray"; // Set to gray as per original intention for non-gradient state
           }
+          // Reset other rows to their default (remove inline style) if they were ever changed,
+          // or ensure they are not touched if only 'table-active' should style them.
+          // For now, the focus is 'highlightRowIndex'.
+          // If other rows (not table-active) were also grayed, this needs more nuanced handling
+          // to restore them to default (not necessarily gray).
+          // However, table-active is set once, other rows are plain. This targeted reset is better.
+
           document.getElementById("countDownTimer").style.background = "gray";
         }
 
@@ -697,21 +739,38 @@ ToDo: Fix notification text for iftar/sahoor...
 
         if (distance < 0) {
           clearInterval(x);
-          notifyMe("Prayer time", nextP + " is now...");
+          
+          let finalNotificationTitle = "Prayer time";
+          let finalNotificationBody = "";
+
+          if (nextP === "Sahour ends/Fajr") {
+            finalNotificationTitle = "Sahoor & Fajr";
+            finalNotificationBody = "Sahoor time has ended. Fajr prayer is now.";
+          } else if (nextP === "Iftar/Maghrib") {
+            finalNotificationTitle = "Iftar & Maghrib";
+            finalNotificationBody = "Iftar time has begun. Maghrib prayer is now.";
+          } else {
+            // For regular prayers, nextP would be like "Fajr", "Dhuhr", etc.
+            if (nextP && nextP !== "None") { // Ensure nextP is a valid prayer name
+                finalNotificationTitle = nextP + " Prayer";
+                finalNotificationBody = nextP + " is now.";
+            } else {
+                // Fallback for any unexpected nextP value, though "None" is handled earlier
+                finalNotificationTitle = "Prayer time";
+                finalNotificationBody = "The scheduled time is now.";
+            }
+          }
+          
+          notifyMe(finalNotificationTitle, finalNotificationBody);
+          
           $('body').css('background-color', 'lightgreen');
           $("#countDownTimer").html("Done");
 
-          // console.log("1 - dLatitude = " + dLatitude);
           if( typeof dLatitude === 'undefined' || dLatitude === null ){
-            // console.log("2 - dLatitude = " + dLatitude);
             var dLatitude = getUrlParameter('latitude');
-            // console.log("3 - dLatitude = " + dLatitude);
           }
-          // console.log("1 - dLongitude = " + dLongitude);
           if( typeof dLongitude === 'undefined' || dLongitude === null ){
-            // console.log("2 - dLongitude = " + dLongitude);
             var dLongitude = getUrlParameter('longitude');
-            // console.log("3 - dLongitude = " + dLongitude);
           }
               
           setTimeout(useLocation(dLatitude, dLongitude), 60000);
@@ -723,58 +782,88 @@ ToDo: Fix notification text for iftar/sahoor...
       }, 1000);
     }
 
-    function getCalculationParams(CalculationMethod, tz) {
-      if (CalculationMethod) {
-        if (CalculationMethod.includes("NorthAmerica")) {
+    function getCalculationParams(UrlCalculationMethod, tz) {
+      // 1. User Override (URL Parameter)
+      // If a CalculationMethod is specified in the URL, it takes precedence.
+      if (UrlCalculationMethod) {
+        if (UrlCalculationMethod.includes("NorthAmerica")) {
           return adhan.CalculationMethod.NorthAmerica();
-        } else if (CalculationMethod.includes("Dubai")) {
+        } else if (UrlCalculationMethod.includes("Dubai")) {
           return adhan.CalculationMethod.Dubai();
-        } else if (CalculationMethod.includes("Egyptian")) {
+        } else if (UrlCalculationMethod.includes("Egyptian")) {
           return adhan.CalculationMethod.Egyptian();
-        } else if (CalculationMethod.includes("Karachi")) {
+        } else if (UrlCalculationMethod.includes("Karachi")) {
           return adhan.CalculationMethod.Karachi();
-        } else if (CalculationMethod.includes("UmmAlQura")) {
+        } else if (UrlCalculationMethod.includes("UmmAlQura")) {
           return adhan.CalculationMethod.UmmAlQura();
-        } else if (CalculationMethod.includes("Qatar")) {
+        } else if (UrlCalculationMethod.includes("Qatar")) {
           return adhan.CalculationMethod.Qatar();
-        } else if (CalculationMethod.includes("Singapore")) {
+        } else if (UrlCalculationMethod.includes("Singapore")) {
           return adhan.CalculationMethod.Singapore();
-        } else if (CalculationMethod.includes("Tehran")) {
+        } else if (UrlCalculationMethod.includes("Tehran")) {
           return adhan.CalculationMethod.Tehran();
-        } else if (CalculationMethod.includes("Turkey")) {
+        } else if (UrlCalculationMethod.includes("Turkey")) {
           return adhan.CalculationMethod.Turkey();
-        } else if (CalculationMethod.includes("MoonsightingCommittee")) {
+        } else if (UrlCalculationMethod.includes("MoonsightingCommittee")) {
           return adhan.CalculationMethod.MoonsightingCommittee();
-        } else if (CalculationMethod.includes("MuslimWorldLeague")) {
+        } else if (UrlCalculationMethod.includes("MuslimWorldLeague")) {
           return adhan.CalculationMethod.MuslimWorldLeague();
-        } else if (CalculationMethod.includes("Kuwait")) {
+        } else if (UrlCalculationMethod.includes("Kuwait")) {
           return adhan.CalculationMethod.Kuwait();
         } else {
           return adhan.CalculationMethod.Other();
         }
       } else {
-        if (tz.includes("America")) {
-          return adhan.CalculationMethod.NorthAmerica();
-        } else if (tz.includes("Dubai")) {
-          return adhan.CalculationMethod.Dubai();
-        } else if (tz.includes("Africa")) {
-          return adhan.CalculationMethod.Egyptian();
-        } else if (tz.includes("Karachi")) {
-          return adhan.CalculationMethod.Karachi();
-        } else if (tz.includes("Qatar")) {
-          return adhan.CalculationMethod.Qatar();
-        } else if (tz.includes("Singapore")) {
-          return adhan.CalculationMethod.Singapore();
-        } else if (tz.includes("Tehran")) {
-          return adhan.CalculationMethod.Tehran();
-        } else if (tz.includes("Istanbul")) {
-          return adhan.CalculationMethod.Turkey();
-        } else if ( tz.includes("Damascus")
-                || tz.includes("Amman")
-                || tz.includes("Riyadh") ) {
-          return adhan.CalculationMethod.UmmAlQura();
+        // 2. Dynamic selection based on timezone (tz) if no URL parameter is set.
+
+        if (!tz) { // Fallback if timezone is undefined
+            return adhan.CalculationMethod.MoonsightingCommittee();
+        }
+
+        if (tz.startsWith("America/")) {
+            // MoonsightingCommittee is preferred for North America according to Adhan.js docs
+            return adhan.CalculationMethod.MoonsightingCommittee();
+        } else if (tz.startsWith("Europe/")) {
+            if (tz === "Europe/London") {
+                return adhan.CalculationMethod.MoonsightingCommittee();
+            } else if (tz === "Europe/Istanbul") {
+                return adhan.CalculationMethod.Turkey();
+            } else {
+                // MuslimWorldLeague is a common general method for other European countries.
+                // MoonsightingCommittee could also be an option due to high-latitude handling.
+                return adhan.CalculationMethod.MuslimWorldLeague();
+            }
+        } else if (tz.startsWith("Asia/")) {
+            if (tz === "Asia/Dubai") {
+                return adhan.CalculationMethod.Dubai();
+            } else if (tz === "Asia/Karachi" || tz === "Asia/Kolkata" || tz.includes("India")) {
+                return adhan.CalculationMethod.Karachi();
+            } else if (tz === "Asia/Riyadh" || tz === "Asia/Makkah") { // Makkah for UmmAlQura
+                return adhan.CalculationMethod.UmmAlQura();
+            } else if (tz === "Asia/Qatar") {
+                return adhan.CalculationMethod.Qatar();
+            } else if (tz === "Asia/Kuwait") {
+                return adhan.CalculationMethod.Kuwait();
+            } else if (tz === "Asia/Singapore" || tz === "Asia/Kuala_Lumpur" || tz === "Asia/Jakarta") {
+                return adhan.CalculationMethod.Singapore();
+            } else if (tz === "Asia/Tehran") {
+                return adhan.CalculationMethod.Tehran();
+            } else {
+                // Default for other Asian timezones
+                return adhan.CalculationMethod.MuslimWorldLeague();
+            }
+        } else if (tz.startsWith("Africa/")) {
+            if (tz === "Africa/Cairo") {
+                return adhan.CalculationMethod.Egyptian();
+            } else {
+                // For other African regions, MuslimWorldLeague is a common general method.
+                return adhan.CalculationMethod.MuslimWorldLeague();
+            }
+        } else if (tz.startsWith("Australia/")) {
+            return adhan.CalculationMethod.MuslimWorldLeague();
         } else {
-          return adhan.CalculationMethod.Other();
+            // Fallback for other timezones (e.g., Etc/GMT)
+            return adhan.CalculationMethod.MoonsightingCommittee(); // General default
         }
       }
     }
@@ -788,8 +877,6 @@ ToDo: Fix notification text for iftar/sahoor...
             useLocation(dLatitude, dLongitude);
           },
           (error) => {
-            console.error("Error getting location:", error.message);
-            console.log("useLocation(" + dLatitude + ", " + dLongitude + ");");
             useLocation(dLatitude, dLongitude);
           }, {
             enableHighAccuracy: true,
@@ -798,14 +885,12 @@ ToDo: Fix notification text for iftar/sahoor...
           }
         );
       } else {
-        console.warn("Geolocation is not supported by this browser.");
         useLocation(dLatitude, dLongitude);
       }
     }
 
     function notifyMe(title, msg) {
       if (!("Notification" in window)) {
-        console.log("This browser does not support system notifications");
       } else if (Notification.permission === "granted") {
         notify(title, msg);
       } else if (Notification.permission !== 'denied') {
@@ -821,7 +906,6 @@ ToDo: Fix notification text for iftar/sahoor...
           body: msg,
         });
 
-        console.log("Nofication: " + title + " - " + msg);
         setTimeout(notification.close.bind(notification), 1000 * 60 * 60);
       }
     }
@@ -829,8 +913,6 @@ ToDo: Fix notification text for iftar/sahoor...
     var latitude = getUrlParameter('latitude');
     var longitude = getUrlParameter('longitude');
 
-    console.log("URL latitude = " + latitude);
-    console.log("URL longitude = " + longitude);
   </script>
 
 </body>
