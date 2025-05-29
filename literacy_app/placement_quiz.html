@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Placement Quiz - Literacy App</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Initial Placement Quiz</h1>
+        <p>Let's find the best place for you to start. Choose the picture that matches the word.</p>
+        <form id="placementQuizForm">
+            <div class="quiz-question">
+                <p>Word: <strong>CAT</strong></p>
+                <div class="options">
+                    <label><input type="radio" name="q1" value="cat_pic_correct"> <img src="images/placeholder_cat.png" alt="Cat" width="100"></label>
+                    <label><input type="radio" name="q1" value="dog_pic"> <img src="images/placeholder_dog.png" alt="Dog" width="100"></label>
+                    <label><input type="radio" name="q1" value="hat_pic"> <img src="images/placeholder_hat.png" alt="Hat" width="100"></label>
+                </div>
+            </div>
+            <div class="quiz-question">
+                <p>Word: <strong>SUN</strong></p>
+                <div class="options">
+                    <label><input type="radio" name="q2" value="moon_pic"> <img src="images/placeholder_moon.png" alt="Moon" width="100"></label>
+                    <label><input type="radio" name="q2" value="sun_pic_correct"> <img src="images/placeholder_sun.png" alt="Sun" width="100"></label>
+                    <label><input type="radio" name="q2" value="star_pic"> <img src="images/placeholder_star.png" alt="Star" width="100"></label>
+                </div>
+            </div>
+            <div class="quiz-question">
+                <p>Word: <strong>PIN</strong></p>
+                <div class="options">
+                    <label><input type="radio" name="q3" value="bin_pic"> <img src="images/placeholder_bin.png" alt="Bin" width="100"></label>
+                    <label><input type="radio" name="q3" value="pen_pic"> <img src="images/placeholder_pen.png" alt="Pen" width="100"></label>
+                    <label><input type="radio" name="q3" value="pin_pic_correct"> <img src="images/placeholder_pin.png" alt="Pin" width="100"></label>
+                </div>
+            </div>
+            <!-- Add 2 more similar questions for a total of 5 CVC words -->
+            <div class="quiz-question">
+                <p>Word: <strong>TOP</strong></p>
+                <div class="options">
+                    <label><input type="radio" name="q4" value="top_pic_correct"> <img src="images/placeholder_top.png" alt="Top" width="100"></label>
+                    <label><input type="radio" name="q4" value="mop_pic"> <img src="images/placeholder_mop.png" alt="Mop" width="100"></label>
+                    <label><input type="radio" name="q4" value="cop_pic"> <img src="images/placeholder_cop.png" alt="Cop" width="100"></label>
+                </div>
+            </div>
+            <div class="quiz-question">
+                <p>Word: <strong>BUG</strong></p>
+                <div class="options">
+                    <label><input type="radio" name="q5" value="rug_pic"> <img src="images/placeholder_rug.png" alt="Rug" width="100"></label>
+                    <label><input type="radio" name="q5" value="bug_pic_correct"> <img src="images/placeholder_bug.png" alt="Bug" width="100"></label>
+                    <label><input type="radio" name="q5" value="jug_pic"> <img src="images/placeholder_jug.png" alt="Jug" width="100"></label>
+                </div>
+            </div>
+            <button type="submit">Submit Quiz</button>
+        </form>
+    </div>
+    <script src="js/auth.js"></script>
+    <script src="js/placement_quiz.js"></script>
+</body>
+</html>
