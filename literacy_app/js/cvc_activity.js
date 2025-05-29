@@ -1,5 +1,9 @@
-document.addEventListener('DOMContentLoaded', async () => {
-    checkAuth(); // From auth.js
+// literacy_app/js/cvc_activity.js
+
+document.addEventListener('DOMContentLoaded', () => {
+    if (!checkAuth()) { // From auth.js; ensures user has a profile
+        return; 
+    }
 
     const activityArea = document.getElementById('activityArea');
     const imageContainer = document.getElementById('imageContainer');
@@ -7,62 +11,48 @@ document.addEventListener('DOMContentLoaded', async () => {
     const feedbackText = document.getElementById('feedbackText');
     const nextButton = document.getElementById('nextButton');
 
-    let currentWords = [];
+    let userProfile = getUserProfile(); // From data_manager.js
+    let currentWordsForActivity = []; // Words for the current session (unmastered ones)
     let currentWordIndex = 0;
     let currentCorrectWord = '';
-    let placeholderImageBase = 'images/placeholder_'; // Base for image names
+    // Image path construction assumes 'images/placeholder_WORD.png' convention
+    // const placeholderImageBase = 'images/placeholder_'; // Defined in data_manager.js (ALL_CVC_WORDS_DETAILS)
 
-    async function fetchUserProgressAndLoadActivity() {
-        try {
-            const token = localStorage.getItem('userToken');
-            const response = await fetch(`${API_BASE_URL}/user_progress`, {
-                method: 'GET',
-                headers: { 'Authorization': `Bearer ${token}` }
-            });
 
-            if (!response.ok) {
-                const errorData = await response.json();
-                throw new Error(errorData.message || "Failed to fetch user progress");
-            }
+    function loadActivityState() {
+        userProfile = getUserProfile(); // Refresh profile data
 
-            const progress = await response.json();
-            if (progress.current_cvc_set && progress.current_cvc_set.length > 0) {
-                currentWords = progress.current_cvc_set.filter(word => 
-                    !(progress.mastered_cvc_words || []).includes(word)
-                ); // Load words not yet mastered
-                
-                if (currentWords.length === 0 && progress.current_cvc_set.length > 0) {
-                    feedbackText.textContent = "Congratulations! You've mastered all words in this set.";
-                    nextButton.style.display = 'none';
-                    wordOptionsContainer.innerHTML = '';
-                    imageContainer.innerHTML = '';
-                    // Potentially offer to go to next level or repeat
-                    return;
-                } else if (currentWords.length === 0) {
-                     feedbackText.textContent = "No words loaded. Please check with your teacher or try the placement quiz again.";
-                     return;
-                }
-                
-                currentWordIndex = 0;
-                loadWordActivity();
-            } else {
-                feedbackText.textContent = "No CVC word set assigned. Please complete the placement quiz.";
-                activityArea.style.display = 'none';
-            }
-        } catch (error) {
-            console.error("Error fetching progress:", error);
-            feedbackText.textContent = error.message || "Error loading activity. Please try again.";
+        if (!userProfile.quizCompleted || !userProfile.currentCVCSet || userProfile.currentCVCSet.length === 0) {
+            feedbackText.textContent = "Please complete the placement quiz to get your CVC word set.";
             activityArea.style.display = 'none';
+            nextButton.style.display = 'none';
+            return;
         }
+
+        // Filter out already mastered words from the current CVC set
+        currentWordsForActivity = userProfile.currentCVCSet.filter(word => 
+            !(userProfile.masteredCVCWords || []).includes(word)
+        );
+        
+        if (currentWordsForActivity.length === 0) {
+            feedbackText.textContent = "Congratulations! You've mastered all words in this set.";
+            if (wordOptionsContainer) wordOptionsContainer.innerHTML = '';
+            if (imageContainer) imageContainer.innerHTML = '';
+            if (nextButton) nextButton.style.display = 'none';
+            return;
+        }
+        
+        currentWordIndex = 0;
+        loadWordActivity();
     }
 
     function generateDistractors(correctWord) {
-        // Simple CVC distractor generation. This should be more sophisticated.
+        // Using the same simple distractor logic as before.
+        // This could be enhanced to use ALL_CVC_WORDS_DETAILS from data_manager for more varied distractors.
         const vowels = ['a', 'e', 'i', 'o', 'u'];
         const consonants = ['b', 'c', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'm', 'n', 'p', 'r', 's', 't', 'v', 'w', 'y', 'z'];
-        let distractors = new Set(); // Use a Set to avoid duplicate distractors
+        let distractors = new Set();
 
-        // Try changing first letter
         if (correctWord.length === 3) {
             let attempts = 0;
             while (distractors.size < 1 && attempts < 5) {
@@ -72,7 +62,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                 }
                 attempts++;
             }
-            // Try changing vowel
             attempts = 0;
             while (distractors.size < 2 && attempts < 5) {
                 const newVowel = vowels[Math.floor(Math.random() * vowels.length)];
@@ -82,8 +71,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 attempts++;
             }
         }
-        // Fallback: if not enough distractors, add some generic CVC words
-        const fallbacks = ['top', 'cat', 'sun', 'pin', 'bug', 'map', 'hen', 'lip', 'fog', 'cup'];
+        const fallbacks = Object.keys(ALL_CVC_WORDS_DETAILS); // Use words from our defined list
         let i = 0;
         while(distractors.size < 2 && i < fallbacks.length) {
             if(fallbacks[i] !== correctWord && !Array.from(distractors).includes(fallbacks[i])) {
@@ -91,28 +79,30 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
             i++;
         }
-        return Array.from(distractors).slice(0, 2); // Return 2 distractors
+        return Array.from(distractors).slice(0, 2);
     }
 
-
     function loadWordActivity() {
-        if (currentWordIndex >= currentWords.length) {
+        if (currentWordIndex >= currentWordsForActivity.length) {
             feedbackText.textContent = "You've completed all available words in this set!";
-            nextButton.style.display = 'none';
-            wordOptionsContainer.innerHTML = '';
-            imageContainer.innerHTML = '';
-            // TODO: Potentially trigger moving to a new set or level
+            if (nextButton) nextButton.style.display = 'none';
+            if (wordOptionsContainer) wordOptionsContainer.innerHTML = '';
+            if (imageContainer) imageContainer.innerHTML = '';
             return;
         }
 
-        currentCorrectWord = currentWords[currentWordIndex];
-        imageContainer.innerHTML = `<img src="${placeholderImageBase}${currentCorrectWord}.png" alt="Image of ${currentCorrectWord}">`;
+        currentCorrectWord = currentWordsForActivity[currentWordIndex];
+        const wordDetails = getCVCWordDetails(currentCorrectWord); // from data_manager.js
+        const imagePath = wordDetails ? wordDetails.image : `images/placeholder_${currentCorrectWord}.png`; // Fallback if not in details
+
+        if (imageContainer) imageContainer.innerHTML = `<img src="${imagePath}" alt="Image of ${currentCorrectWord}">`;
         
         const distractors = generateDistractors(currentCorrectWord);
         const options = [currentCorrectWord, ...distractors];
-        shuffleArray(options); // Shuffle to randomize button order
+        shuffleArray(options);
 
-        wordOptionsContainer.innerHTML = ''; // Clear previous options
+        if (wordOptionsContainer) wordOptionsContainer.innerHTML = '';
+
         options.forEach(word => {
             const button = document.createElement('button');
             button.textContent = word;
@@ -120,57 +110,37 @@ document.addEventListener('DOMContentLoaded', async () => {
             wordOptionsContainer.appendChild(button);
         });
 
-        feedbackText.textContent = 'Match the picture to the word.';
-        nextButton.style.display = 'none';
+        if (feedbackText) feedbackText.textContent = 'Match the picture to the word.';
+        if (nextButton) nextButton.style.display = 'none';
         enableOptions(true);
     }
 
     function handleWordSelection(selectedWord) {
-        enableOptions(false); // Disable buttons after selection
+        enableOptions(false);
         if (selectedWord === currentCorrectWord) {
-            feedbackText.textContent = "Correct!";
-            feedbackText.style.color = 'green';
-            submitAnswer(currentCorrectWord, true); // Mark as mastered
-            nextButton.style.display = 'block';
+            if (feedbackText) {
+                feedbackText.textContent = "Correct!";
+                feedbackText.style.color = 'green';
+            }
+            
+            // Update mastered words in userProfile (localStorage)
+            if (!userProfile.masteredCVCWords.includes(currentCorrectWord)) {
+                userProfile.masteredCVCWords.push(currentCorrectWord);
+                saveUserProfile(userProfile); // from data_manager.js
+            }
+            if (nextButton) nextButton.style.display = 'block';
         } else {
-            feedbackText.textContent = `Not quite. The word was "${currentCorrectWord}". Try again or click Next.`;
-            feedbackText.style.color = 'red';
-            submitAnswer(currentCorrectWord, false); // Mark as attempted, not mastered
-            nextButton.style.display = 'block'; // Allow to proceed even if wrong for MVP
+            if (feedbackText) {
+                feedbackText.textContent = `Not quite. The word was "${currentCorrectWord}". Try again or click Next.`;
+                feedbackText.style.color = 'red';
+            }
+            if (nextButton) nextButton.style.display = 'block'; // Allow to proceed even if wrong
         }
     }
     
-    async function submitAnswer(word, isCorrect) {
-        if (!isCorrect) { // For MVP, we only mark mastered words.
-            console.log(`Attempted: ${word}, Correct: ${isCorrect}`);
-            return; // Don't send to backend if not mastered, or backend handles this logic
-        }
-        try {
-            const token = localStorage.getItem('userToken');
-            const response = await fetch(`${API_BASE_URL}/submit_cvc_answer`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
-                },
-                body: JSON.stringify({ word: word, mastered: isCorrect }),
-            });
-            if (!response.ok) {
-                const errorData = await response.json();
-                console.error("Failed to submit answer:", errorData.message);
-                // Don't alert, just log for now, as it might be disruptive
-            } else {
-                const result = await response.json();
-                console.log("Answer submitted:", result.message);
-                // Update local list of mastered words if needed, or rely on next fetchUserProgress
-            }
-        } catch (error) {
-            console.error("Error submitting CVC answer:", error);
-        }
-    }
-
-
     function enableOptions(enable) {
+        if (!wordOptionsContainer) return;
+
         const buttons = wordOptionsContainer.getElementsByTagName('button');
         for (let button of buttons) {
             button.disabled = !enable;
@@ -184,18 +154,20 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }
 
-    nextButton.addEventListener('click', () => {
-        currentWordIndex++;
-        if (currentWordIndex >= currentWords.length) {
-            // All words in the initially fetched UNMASTERED list are done.
-            // Re-fetch progress to see if there are new words or if the set is truly complete.
-            feedbackText.textContent = "Checking for more words...";
-            fetchUserProgressAndLoadActivity(); 
-        } else {
-            loadWordActivity();
-        }
-    });
+    if (nextButton) {
+        nextButton.addEventListener('click', () => {
+            currentWordIndex++;
+            if (currentWordIndex >= currentWordsForActivity.length) {
+                // All words in the initially filtered unmastered list are done for this session.
+                // Refresh the activity state from localStorage, which may show completion
+                // or load new words if something changed (though unlikely in client-only).
+                loadActivityState(); 
+            } else {
+                loadWordActivity();
+            }
+        });
+    }
 
-    // Initial load
-    fetchUserProgressAndLoadActivity();
+    // Initial load for the activity
+    loadActivityState();
 });

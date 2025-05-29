@@ -3,24 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Literacy App</title>
+    <title>Welcome - Literacy App</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
     <div class="container">
-        <h2>Login</h2>
-        <form id="loginForm">
+        <h2 id="welcomeTitle">Welcome!</h2>
+        <form id="userForm">
             <div>
-                <label for="username">Username:</label>
+                <label for="username">Enter your Name:</label>
                 <input type="text" id="username" name="username" required>
             </div>
-            <div>
-                <label for="password">Password:</label>
-                <input type="password" id="password" name="password" required>
-            </div>
-            <button type="submit">Login</button>
+            <!-- Password field is no longer needed for client-side only version -->
+            <button type="submit" id="actionButton">Start Learning</button>
         </form>
-        <p>Don't have an account? <a href="register.html">Register here</a>.</p>
+        <p id="existingUserText" style="display:none;">Welcome back, <span id="existingUsername"></span>! <a href="#" id="continueLink">Continue</a> or <a href="#" id="resetUserLink">start over</a>.</p>
     </div>
-    <script src="js/login.js"></script> </body>
+    <script src="js/data_manager.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/login.js"></script> 
+</body>
 </html>

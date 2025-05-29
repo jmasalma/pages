@@ -1,63 +1,94 @@
+// literacy_app/js/placement_quiz.js
+
 document.addEventListener('DOMContentLoaded', () => {
-    checkAuth(); // From auth.js - ensure user is logged in
+    // checkAuth() from auth.js should be called on any page requiring login.
+    // If placement_quiz.html is accessed directly, ensure user is "logged in" (has a profile).
+    if (!checkAuth()) { // checkAuth redirects if not logged in and not on login.html
+        // If checkAuth determined a redirect is needed but hasn't done it yet
+        // (e.g. if login.html is the one that should handle it),
+        // it might be good to prevent quiz form listeners from being added.
+        // However, checkAuth itself should redirect away from here if no active profile.
+        return; 
+    }
 
     const quizForm = document.getElementById('placementQuizForm');
-    if (quizForm) {
-        quizForm.addEventListener('submit', async (event) => {
-            event.preventDefault();
-            
-            const answers = {
-                q1: quizForm.elements['q1'].value,
-                q2: quizForm.elements['q2'].value,
-                q3: quizForm.elements['q3'].value,
-                q4: quizForm.elements['q4'].value,
-                q5: quizForm.elements['q5'].value,
-            };
-
-            // Basic validation: Ensure all questions are answered
-            for (const q in answers) {
-                if (!answers[q]) {
-                    alert("Please answer all questions.");
-                    return;
-                }
-            }
-
-            try {
-                const token = localStorage.getItem('userToken');
-                const response = await fetch(`${API_BASE_URL}/submit_placement_quiz`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
-                    },
-                    body: JSON.stringify({ answers }),
-                });
-
-                const data = await response.json();
-
-                if (response.ok) {
-                    alert(data.message || "Quiz submitted successfully! You will now be taken to your dashboard.");
-                    // Store placement result or level if backend provides it
-                    if(data.placement_level) {
-                        localStorage.setItem('placementLevel', data.placement_level);
-                    }
-                    localStorage.setItem('placementQuizCompleted', 'true'); // Mark quiz as completed
-                    window.location.href = 'dashboard.html';
-                } else {
-                    alert(data.message || "Failed to submit quiz.");
-                }
-            } catch (error) {
-                console.error("Quiz submission error:", error);
-                alert("An error occurred during quiz submission.");
-            }
-        });
+    if (!quizForm) {
+        console.error("Placement quiz form not found!");
+        return;
     }
+
+    // Define Quiz Questions and Correct Answers (Client-Side)
+    // These keys should match the 'value' attributes of the correct radio buttons in placement_quiz.html
+    const QUIZ_KEY = {
+        q1: 'cat_pic_correct', // Word: CAT
+        q2: 'sun_pic_correct', // Word: SUN
+        q3: 'pin_pic_correct', // Word: PIN
+        q4: 'top_pic_correct', // Word: TOP
+        q5: 'bug_pic_correct'  // Word: BUG
+    };
+    const TOTAL_QUESTIONS = Object.keys(QUIZ_KEY).length;
+
+    quizForm.addEventListener('submit', async (event) => { // 'async' can be removed if no await inside
+        event.preventDefault();
+        
+        let answeredQuestions = 0;
+        let correctAnswers = 0;
+        const userAnswers = {};
+
+        // Collect and score answers
+        for (let i = 1; i <= TOTAL_QUESTIONS; i++) {
+            const questionName = 'q' + i;
+            if (quizForm.elements[questionName] && quizForm.elements[questionName].value) {
+                userAnswers[questionName] = quizForm.elements[questionName].value;
+                answeredQuestions++;
+                if (userAnswers[questionName] === QUIZ_KEY[questionName]) {
+                    correctAnswers++;
+                }
+            }
+        }
+
+        if (answeredQuestions < TOTAL_QUESTIONS) {
+            alert("Please answer all questions.");
+            return;
+        }
+
+        // Determine placement level based on score (logic from original app.py)
+        let placementLevelResult = "CVC_Level_1_Beginner"; // Default
+        
+        if (correctAnswers >= 4) { // e.g. 4 or 5 correct
+            placementLevelResult = "CVC_Level_2_Intermediate";
+        } else if (correctAnswers >= 2) { // e.g. 2 or 3 correct
+            placementLevelResult = "CVC_Level_1_Review";
+        }
+        // else stays CVC_Level_1_Beginner (already set)
+
+        // Get current user profile
+        const userProfile = getUserProfile(); // from data_manager.js
+        if (!userProfile.isLoggedIn) {
+            alert("No active user profile. Please go back and set up your profile.");
+            window.location.href = 'login.html'; // Redirect to profile setup
+            return;
+        }
+
+        // Update profile with quiz results
+        userProfile.quizCompleted = true;
+        userProfile.placementLevel = placementLevelResult;
+        userProfile.currentCVCSet = getCVCSetForLevel(placementLevelResult); // from data_manager.js
+        userProfile.masteredCVCWords = []; // Reset mastered words for the new level/set
+
+        saveUserProfile(userProfile); // from data_manager.js
+
+        alert(`Quiz submitted! You got ${correctAnswers} out of ${TOTAL_QUESTIONS} correct. Your starting level is: ${placementLevelResult}. You will now be taken to your dashboard.`);
+        
+        // No longer need to store placementQuizCompleted or placementLevel separately in localStorage,
+        // as they are part of the userProfile object saved by saveUserProfile.
+        // localStorage.setItem('placementQuizCompleted', 'true'); // Old way
+        // localStorage.setItem('placementLevel', placementLevelResult); // Old way
+
+        window.location.href = 'dashboard.html';
+    });
 });
 
-// Function to redirect to quiz if not completed (call this on dashboard load)
-function redirectToQuizIfNotCompleted() {
-    if (!localStorage.getItem('placementQuizCompleted')) {
-        // Also check if user has actual placement data on backend if possible in future
-        window.location.href = 'placement_quiz.html';
-    }
-}
+// The function `redirectToQuizIfNotCompleted` is now primarily handled by dashboard.js,
+// which checks the userProfile from data_manager.js.
+// So, this file (placement_quiz.js) doesn't need to define it anymore.
