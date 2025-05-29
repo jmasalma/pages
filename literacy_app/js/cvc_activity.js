@@ -102,6 +102,7 @@ document.addEventListener('DOMContentLoaded', () => {
         shuffleArray(options);
 
         if (wordOptionsContainer) wordOptionsContainer.innerHTML = '';
+
         options.forEach(word => {
             const button = document.createElement('button');
             button.textContent = word;
@@ -139,6 +140,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     function enableOptions(enable) {
         if (!wordOptionsContainer) return;
+
         const buttons = wordOptionsContainer.getElementsByTagName('button');
         for (let button of buttons) {
             button.disabled = !enable;

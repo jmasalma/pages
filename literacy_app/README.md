@@ -1,3 +1,4 @@
+
 # Literacy App MVP (Client-Side Only)
 
 ## Overview
@@ -68,3 +69,4 @@ It features:
 -   Centralized data storage for cross-device access.
 -   Teacher/administrator roles and advanced reporting.
 ```
+

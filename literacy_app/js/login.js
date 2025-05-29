@@ -62,4 +62,5 @@ document.addEventListener('DOMContentLoaded', () => {
         alert(`Profile created for ${enteredUsername}!`);
         window.location.href = 'dashboard.html'; // Go to dashboard (which will check for quiz)
     });
+
 });

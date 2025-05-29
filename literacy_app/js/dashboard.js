@@ -56,6 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 } else {
                     startActivityButton.textContent = "Start/Continue CVC Activity";
                 }
+
                 startActivityButton.onclick = () => { window.location.href = 'activity_cvc.html'; };
             }
 
@@ -83,4 +84,5 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Initial load of dashboard content
     loadDashboardContent();
+
 });
