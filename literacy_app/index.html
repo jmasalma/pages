@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Literacy App</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/data_manager.js"></script> <!-- Load data_manager first -->
+    <script>
+        // Redirect to login/profile page, which handles user state
+        window.onload = function() {
+            // No auth check here, login.js will handle it
+            window.location.href = 'login.html';
+        };
+    </script>
+</head>
+<body>
+    <h1>Welcome to the Literacy App</h1>
+    <p>Loading...</p>
+</body>
+</html>
